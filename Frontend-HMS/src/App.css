@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --auth-bg-color: #fafafa;
+  --light-background: #ffffff;
+  --primary-purple: #5627ff;
+  --default-grey: #fafafa;
+}
+
+body {
+  font-family: "Mona Sans", sans-serif;
+}
+
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus {
+  background-color: white !important; /* Your desired background color */
+  color: inherit !important; /* Retain text color */
+  box-shadow: 0 0 0px 1000px white inset !important; /* Prevent background change */
+}
+.input-group {
+  position: relative;
+}
+
+.input {
+  outline: none;
+}
+
+.input:focus {
+  border: 1px solid var(--primary-purple) !important;
+  outline: none; /* Removes default browser focus outline */
+}
+
+.placeholder {
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  transition: 0.3s;
+  pointer-events: none;
+  width: auto;
+  text-align: center;
+  color: #5a5b5a;
+}
+
+.input:focus + .placeholder {
+  color: var(--primary-purple) !important;
+}
+
+.input:focus + .placeholder,
+.input:not(:placeholder-shown).input:not(:focus) ~ .placeholder {
+  top: -12px;
+  left: 15px;
+  background-color: #ffffff;
+  padding: 0 0.2rem;
+}
+
+.input:focus ~ .password__toggle {
+  display: block !important;
+}
