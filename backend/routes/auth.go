@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"fmt"
 	"hms/config"
 	"hms/models"
 	"hms/utils"
@@ -105,12 +104,12 @@ type JwtClaims struct {
 }
 
 func Profile(ctx *gin.Context) {
-	fmt.Println("profile starts 2")
 
 	// getting post data
 
 	// return success
+	id := ctx.GetString("user_id")
 	ctx.JSON(http.StatusAccepted, gin.H{
-		"message": "Welcome user!",
+		"message": "Welcome user!" + id,
 	})
 }
