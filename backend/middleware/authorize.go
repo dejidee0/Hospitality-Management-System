@@ -1,25 +1,46 @@
 package middleware
 
 import (
-	"fmt"
+	"hms/config"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 )
 
 func Authorize() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		auth := ctx.GetHeader("Authorization")
-		if auth == "" {
-			ctx.JSON(http.StatusForbidden, gin.H{
-				"error": http.StatusText(http.StatusForbidden),
+		token_string := ctx.GetHeader("Authorization")
+		if token_string == "" {
+			ctx.JSON(http.StatusUnauthorized, gin.H{
+				"error": http.StatusText(http.StatusUnauthorized),
 			})
+			ctx.Abort()
 			return
 		}
-		fmt.Printf("Authourization: %s\n", auth)
+		token, err := jwt.Parse(token_string, func(t *jwt.Token) (interface{}, error) {
+			return config.JWTKey, nil
+		})
+		if err != nil {
+			log.Println("Hit" + err.Error())
+			ctx.JSON(http.StatusUnauthorized, gin.H{
+				"error": http.StatusText(http.StatusUnauthorized),
+			})
+			ctx.Abort()
+			return
+		}
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if ok && token.Valid {
+			ctx.Set("user_id", claims["Id"])
+			// fmt.Printf("Claims: %+v\n", claims)
+			ctx.Next()
+		} else {
+			ctx.JSON(http.StatusUnauthorized, gin.H{
+				"error": http.StatusText(http.StatusUnauthorized),
+			})
+			ctx.Abort()
+		}
 
-		fmt.Println("before profile starts 1")
-		ctx.Next()
-		fmt.Println("After profile end 3")
 	}
 }
