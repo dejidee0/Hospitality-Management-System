@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"hms/models"
 	"hms/utils"
 	"log"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 // var users = make(map[string]models.User)
 
 func Signup(ctx *gin.Context) {
+	// getting post data
 	var data utils.SignupData
 	err := ctx.Bind(&data)
 	if err != nil {
@@ -21,7 +23,8 @@ func Signup(ctx *gin.Context) {
 		return
 	}
 
-	err = utils.ValidateSignupData(&data)
+	// create and validate user
+	user, err := models.NewUser(data.Email, data.Password)
 	if err != nil {
 		log.Println(err)
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -30,12 +33,17 @@ func Signup(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{
-		"message": "User created successfully",
-		"user_id": "234df",
-		"user":    &data,
-	})
-
+	// add user to db
+	err = user.Save()
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	// return success
+	ctx.JSON(http.StatusCreated, gin.H{"message": "user created successfully"})
 }
 
 // func Profile(ctx *gin.Context) {
