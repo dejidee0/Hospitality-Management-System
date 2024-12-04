@@ -2,15 +2,17 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"hms/database"
 
 	"github.com/google/uuid"
 )
 
 type User struct {
+	Id       string `json:"id"`
 	Name     string `json:"name"`
 	Email    string `json:"email"`
-	Password string `json:"password"`
+	Password string `json:"-"`
 }
 
 func NewUser(email, password string) (*User, error) {
@@ -32,9 +34,13 @@ func (u *User) Save() error {
 
 	id := uuid.New().String()
 
+	// hash password here
+	hashed_password := HashPassword(u.Password)
+	fmt.Printf("Pass: %s AND hashed: %s\n", u.Password, hashed_password)
+
 	query := `INSERT INTO users (id, email, password) VALUES (?,?,?);`
 
-	_, err := db.Exec(query, id, u.Email, u.Password)
+	_, err := db.Exec(query, id, u.Email, hashed_password)
 	if err != nil {
 		return err
 	}

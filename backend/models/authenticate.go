@@ -1,0 +1,47 @@
+package models
+
+import (
+	"database/sql"
+	"errors"
+	"hms/database"
+
+	"golang.org/x/crypto/bcrypt"
+)
+
+func Authenticate(email, password string) (*User, error) {
+	db := database.GetDB()
+	defer db.Close()
+
+	// hash password
+	// hash_pass := HashPassword(password)
+	// fmt.Printf("Pass: %s AND hashed: %s\n", password, hash_pass)
+
+	query := `SELECT id, COALESCE(name, ""), email, password FROM users WHERE email = ?;`
+	row := db.QueryRow(query, email)
+
+	var user User
+	err := row.Scan(&user.Id, &user.Name, &user.Email, &user.Password)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, errors.New("no such email")
+		}
+		return nil, err
+	}
+	ok := VerifyPassword(user.Password, password)
+	if !ok {
+		return nil, errors.New("incorrect password")
+	}
+
+	return &user, nil
+}
+
+func HashPassword(password string) string {
+	hash_bytes, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(hash_bytes)
+}
+
+func VerifyPassword(hash, pass string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(pass))
+	return err == nil
+}
