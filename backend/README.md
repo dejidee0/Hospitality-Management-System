@@ -30,4 +30,12 @@ or use the make command
 4. GET /auth/profile
 <!-- IT'S JUST FOR TESTING PURPOSES -->
 
-5. 
+5. GET /auth/reset-password
+    Query Parameter
+        - email
+
+
+6. POST /auth/change-password
+    Payload:
+        - token
+        - password

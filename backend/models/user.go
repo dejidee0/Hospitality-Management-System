@@ -9,10 +9,11 @@ import (
 )
 
 type User struct {
-	Id       string `json:"id"`
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"-"`
+	Id        string `json:"id"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Email     string `json:"email"`
+	Password  string `json:"-"`
 }
 
 func NewUser(email, password string) (*User, error) {
@@ -41,6 +42,47 @@ func (u *User) Save() error {
 	query := `INSERT INTO users (id, email, password) VALUES (?,?,?);`
 
 	_, err := db.Exec(query, id, u.Email, hashed_password)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (u *User) GetUserByEmail(email string) error {
+	db := database.GetDB()
+	defer db.Close()
+
+	query := `SELECT id FROM users WHERE email = ?;`
+
+	row := db.QueryRow(query, email)
+	// var user models.User
+	err := row.Scan(&u.Id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (u *User) UpdateResetPasswordToken(token string) error {
+	db := database.GetDB()
+	defer db.Close()
+
+	query := `UPDATE users SET change_password_token = ? WHERE id = ?;`
+
+	_, err := db.Exec(query, token, u.Id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (u *User) UpdatePassword(email, password string) error {
+	db := database.GetDB()
+	defer db.Close()
+
+	query := `UPDATE users SET password = ?, change_password_token = "" WHERE email = ?;`
+
+	_, err := db.Exec(query, password, email)
 	if err != nil {
 		return err
 	}
