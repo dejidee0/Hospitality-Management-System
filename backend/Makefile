@@ -19,4 +19,8 @@ default: server
 # Start the Go server
 # make server
 server:
-	go run .
+	go run main.go
+
+# build a single binary
+build:
+	go build -o hms main.go && cp hms ../bin && cp data/hms.db ../bin/data && cp .env ../bin && mv ../bin/.env ../bin/env.example
