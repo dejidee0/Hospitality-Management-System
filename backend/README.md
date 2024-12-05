@@ -26,4 +26,8 @@ or use the make command
     Return:
         {message, token}
 
-4. 
+<!-- IGNORE THIS -->
+4. GET /auth/profile
+<!-- IT'S JUST FOR TESTING PURPOSES -->
+
+5. 
