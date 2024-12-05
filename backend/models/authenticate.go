@@ -16,11 +16,11 @@ func Authenticate(email, password string) (*User, error) {
 	// hash_pass := HashPassword(password)
 	// fmt.Printf("Pass: %s AND hashed: %s\n", password, hash_pass)
 
-	query := `SELECT id, COALESCE(name, ""), email, password FROM users WHERE email = ?;`
+	query := `SELECT id, firstname, email, password FROM users WHERE email = ?;`
 	row := db.QueryRow(query, email)
 
 	var user User
-	err := row.Scan(&user.Id, &user.Name, &user.Email, &user.Password)
+	err := row.Scan(&user.Id, &user.FirstName, &user.Email, &user.Password)
 
 	if err != nil {
 		if err == sql.ErrNoRows {
