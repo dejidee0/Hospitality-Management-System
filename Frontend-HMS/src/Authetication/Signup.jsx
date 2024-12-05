@@ -98,7 +98,7 @@ const Signup = () => {
     <>
       <Navbar />
       <div
-        className="flex justify-center items-center h-[140vh]  flex-col gap-[52px]"
+        className="flex justify-center items-center h-[160vh]  flex-col gap-[52px]"
         style={{ backgroundColor: "var(--auth-bg-color)" }}
       >
         {/* Center Item container*/}
