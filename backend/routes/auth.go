@@ -73,8 +73,8 @@ func Login(ctx *gin.Context) {
 	expirationTime := time.Now().Add(1 * time.Hour).Unix()
 
 	claims := &JwtClaims{
-		Id:   user.Id,
-		Name: user.Name,
+		Id:        user.Id,
+		FirstName: user.FirstName,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime,
 			Issuer:    "HMS-FindPeace",
@@ -98,8 +98,8 @@ func Login(ctx *gin.Context) {
 }
 
 type JwtClaims struct {
-	Id   string
-	Name string
+	Id        string
+	FirstName string
 	jwt.StandardClaims
 }
 
