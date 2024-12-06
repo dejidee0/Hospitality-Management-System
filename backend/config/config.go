@@ -31,9 +31,13 @@ var MailUsername = os.Getenv("MAIL_USERNAME")
 var MailPassword = os.Getenv("MAIL_PASSWORD")
 
 func getMailPort() int {
-	port = os.Getenv("MAIL_PORT")
+	port, ok := os.LookupEnv("MAIL_PORT")
+	if !ok {
+		log.Fatal("error: MAIL_PORT environment variable not set")
+	}
 	MailPortInt, err := strconv.Atoi(port)
 	if err != nil {
+		log.Printf("error: MAIL_PORT environment variable must be an integer")
 		log.Fatal(err)
 	}
 	return MailPortInt
