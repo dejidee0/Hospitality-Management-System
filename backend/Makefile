@@ -23,4 +23,4 @@ server:
 
 # build a single binary
 build:
-	go build -o ../bin/hms main.go && cp data/hms.db ../bin/data && cp .env ../bin/env.example
+	go build -o ../bin/hms main.go && cp data/hms.db ../bin/data && cp env.example ../bin && cp .env ../bin

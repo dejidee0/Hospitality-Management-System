@@ -3,6 +3,7 @@ package routes
 import (
 	"fmt"
 	"hms/config"
+	"hms/mail"
 	"hms/models"
 	"hms/utils"
 	"log"
@@ -71,11 +72,20 @@ func ResetPassword(ctx *gin.Context) {
 	// send token together with the link to update form to email
 	// e.g wwww.findpeacefrontend.com/reset?reset_token=token
 
+	err = mail.SendToken(tokenString, email)
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusAccepted, gin.H{
+			"error":       "email not sent",
+			"email":       email,
+			"reset-token": tokenString,
+		})
+		return
+	}
+
 	// success
 	ctx.JSON(http.StatusOK, gin.H{
-		"message":     "email sent successfully",
-		"email":       email,
-		"reset-token": tokenString,
+		"message": "email sent successfully",
 	})
 }
 
