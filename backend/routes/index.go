@@ -9,7 +9,7 @@ import (
 // index route, route to the index page. '/'
 func Index(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Welcome home",
+		"message": "testing..............",
 	})
 }
 

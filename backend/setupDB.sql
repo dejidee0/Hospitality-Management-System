@@ -3,7 +3,7 @@ PRAGMA foreign_keys = ON;
 
 -- CREATE users table
 CREATE TABLE IF NOT EXISTS users(
-    id VARCHAR(255) NOT NULL UNIQUE,
+    id VARCHAR(255) PRIMARY KEY,
     firstname VARCHAR(100) DEFAULT "",
     lastname VARCHAR(100) DEFAULT "",
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users(
 
 -- CREATE hotels table
 CREATE TABLE IF NOT EXISTS hotels(
-    id VARCHAR(255) NOT NULL UNIQUE,
+    id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     city VARCHAR(50) NOT NULL,
     state VARCHAR(50) NOT NULL,
@@ -25,13 +25,15 @@ CREATE TABLE IF NOT EXISTS hotels(
     price_per_night REAL DEFAULT 0.0,
     amenities TEXT DEFAULT "no smoking, parking, swimming pool", --comma sepated amenities
     rating INTEGER DEFAULT 5,
-    images TEXT DEFAULT "default_hotel.jpeg"  -- comma separated url endpoints, the first being the main one
+    images TEXT DEFAULT "default_hotel.jpeg",  -- comma separated url endpoints, the first being the main one
+    popular BOOLEAN DEFAULT 0
 );
+
 
 
 -- CREATE reviews table
 CREATE TABLE IF NOT EXISTS reviews (
-    id VARCHAR(255) NOT NULL UNIQUE,
+    id VARCHAR(255) PRIMARY KEY,
     hotel_id VARCHAR(255),
     name VARCHAR(50), -- name of the person creating the review
     country VARCHAR(50), -- country of the person creating the review
@@ -48,7 +50,7 @@ CREATE TABLE IF NOT EXISTS reviews (
 
 -- CREATE hotel_bookings table
 CREATE TABLE IF NOT EXISTS hotel_bookings (
-    id VARCHAR(255) NOT NULL UNIQUE,
+    id VARCHAR(255) PRIMARY KEY,
     hotel_id VARCHAR(255),
     created_at DATE DEFAULT (DATE('now')),
     effective_date DATE,
@@ -58,3 +60,16 @@ CREATE TABLE IF NOT EXISTS hotel_bookings (
     status VARCHAR(20) DEFAULT "pending" CHECK(status IN ('pending', 'processing', 'paid', 'used')),
     FOREIGN KEY (hotel_id) REFERENCES hotels (id)
 );
+
+
+-- CREATE blogs table
+CREATE TABLE IF NOT EXISTS blogs (
+    id VARCHAR(255) PRIMARY KEY,
+    title VARCHAR(255),
+    author VARCHAR(50),
+    display_image VARCHAR(50),
+    created_at DATE DEFAULT (DATE('now')),
+    updated_at DATE DEFAULT (DATE('now'))
+);
+
+
