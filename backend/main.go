@@ -11,6 +11,7 @@ import (
 
 func main() {
 	r := gin.Default()
+	r.Use(middleware.CORSMiddleware())
 
 	// index routes
 	r.GET("/", routes.Index)
