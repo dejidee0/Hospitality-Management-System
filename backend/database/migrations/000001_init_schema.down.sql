@@ -1,0 +1,7 @@
+PRAGMA foreign_keys=OFF;
+
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS hotels;
+DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS hotel_bookings;
+DROP TABLE IF EXISTS blogs;
