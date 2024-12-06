@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS blogs (
     id VARCHAR(255) PRIMARY KEY,
     title VARCHAR(255),
     author VARCHAR(50),
-    display_image VARCHAR(50),
+    display_image VARCHAR(50) DEFAULT "default_blog.jpeg",
     created_at DATE DEFAULT (DATE('now')),
     updated_at DATE DEFAULT (DATE('now'))
 );
