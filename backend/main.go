@@ -17,6 +17,9 @@ func main() {
 	r.GET("/", routes.Index)
 	r.GET("/health", routes.Health)
 
+	// this serves the data for the home page
+	r.GET("/home", routes.Home)
+
 	// auth routes
 	r.POST("/auth/signup", routes.Signup)
 	r.POST("/auth/login", routes.Login)
