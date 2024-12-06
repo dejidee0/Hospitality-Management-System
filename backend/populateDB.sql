@@ -31,12 +31,14 @@
 
 -- populate blogs
 
-INSERT INTO blogs (id, title, display_image)
-VALUES
-    ("8", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
-    ("9", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
-    ("10", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
-    ("11", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
-    ("12", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
-    ("13", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
-    ("14", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg");
+-- INSERT INTO blogs (id, title, display_image)
+-- VALUES
+--     ("8", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
+--     ("9", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
+--     ("10", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
+--     ("11", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
+--     ("12", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
+--     ("13", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg"),
+--     ("14", "An Echanting Spanish Summer Await: Discover the Many Charm of Valencia", "default_blog.jpeg");
+
+
