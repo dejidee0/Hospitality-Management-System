@@ -75,10 +75,8 @@ func ResetPassword(ctx *gin.Context) {
 	err = mail.SendToken(tokenString, email)
 	if err != nil {
 		log.Println(err)
-		ctx.JSON(http.StatusAccepted, gin.H{
-			"error":       "email not sent",
-			"email":       email,
-			"reset-token": tokenString,
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": fmt.Sprintf("email not sent to (%s), try again!", email),
 		})
 		return
 	}
@@ -98,8 +96,6 @@ func ChangePassword(ctx *gin.Context) {
 		})
 		return
 	}
-	fmt.Printf("Token: %s\nNew Password: %s\n", data.Token, data.Password)
-
 	// validate token, check if its still valid
 	token, err := jwt.Parse(data.Token, func(t *jwt.Token) (interface{}, error) {
 		return config.JWTKey, nil
@@ -107,7 +103,7 @@ func ChangePassword(ctx *gin.Context) {
 	if err != nil {
 		log.Println("parsing and validating error: " + err.Error())
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": http.StatusText(http.StatusBadRequest),
+			"error": fmt.Sprintf("Token is invalid, %s", err),
 		})
 		return
 	}
@@ -121,7 +117,7 @@ func ChangePassword(ctx *gin.Context) {
 		// ctx.Next()
 		log.Println("error getting claim")
 		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": http.StatusText(http.StatusInternalServerError),
+			"error": "Token is invalid",
 		})
 		return
 	}
