@@ -16,11 +16,11 @@ func Authenticate(email, password string) (*User, error) {
 	// hash_pass := HashPassword(password)
 	// fmt.Printf("Pass: %s AND hashed: %s\n", password, hash_pass)
 
-	query := `SELECT id, firstname, email, password FROM users WHERE email = ?;`
+	query := `SELECT id, email, password FROM users WHERE email = ?;`
 	row := db.QueryRow(query, email)
 
 	var user User
-	err := row.Scan(&user.Id, &user.FirstName, &user.Email, &user.Password)
+	err := row.Scan(&user.Id, &user.Email, &user.Password)
 
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -32,8 +32,11 @@ func Authenticate(email, password string) (*User, error) {
 	if !ok {
 		return nil, errors.New("incorrect password")
 	}
-
-	return &user, nil
+	// sending a new user object without the password
+	return &User{
+		Id:    user.Id,
+		Email: user.Email,
+	}, nil
 }
 
 func HashPassword(password string) string {
