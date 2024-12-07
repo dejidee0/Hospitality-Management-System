@@ -10,6 +10,7 @@ import facebookIcon from "../assets/facebook_icon.svg";
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false); //for password toggle
   const currentYear = new Date().getFullYear(); // Dynamically get the current year for copyright section
+
   // State to hold the form data
   const [formData, setFormData] = useState({
     email: "",
@@ -72,14 +73,30 @@ const Signup = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
     if (validate()) {
-      console.log("Form submitted successfully:", formData);
+      try {
+        const response = await fetch("http://localhost:8080/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
 
-      // Simulate dummy data submission
-      alert("Form submitted with dummy data. API not ready.");
+        if (!response.ok) {
+          throw new Error(
+            "An error occurred while processing your request. Please try again."
+          );
+        }
+
+        const data = await response.json();
+        console.log("Response:", data);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
 
       // Clear the form
       setFormData({
@@ -259,7 +276,10 @@ const Signup = () => {
                       </div>
                     )}
                   </div>
-                  <button className="w-[548px] h-12 border border-[color:var(--primary-purple)] bg-[color:var(--primary-purple)] flex justify-center items-center font-medium [font-style:14px] leading-[19.6px] text-white rounded-lg border-solid">
+                  <button
+                    type="submit"
+                    className="w-[548px] h-12 border border-[color:var(--primary-purple)] bg-[color:var(--primary-purple)] flex justify-center items-center font-medium [font-style:14px] leading-[19.6px] text-white rounded-lg border-solid"
+                  >
                     Sign Up
                   </button>
                   <span className="flex justify-center gap-[5px] font-normal text-sm leading-[19.6px] text-center">

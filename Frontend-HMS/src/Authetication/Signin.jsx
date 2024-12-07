@@ -104,10 +104,12 @@ const Signin = () => {
             <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
               {/* FORM HEADING */}
               <div className="flex flex-col gap-2">
+                {/* to change */}
                 <h4 className="font-semibold text-[22px] leading-[26.4px] text-[black]">
                   Sign in to account
                 </h4>
                 <span className="font-normal text-sm leading-[19.6px] text-[black] flex gap-[5px]">
+                  {/* to change */}
                   <p>Don&#39;t have an account up</p>
                   <Link
                     to="/signup"
