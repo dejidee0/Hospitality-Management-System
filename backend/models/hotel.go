@@ -13,7 +13,6 @@ type Hotel struct {
 	Price_per_night float64
 	Images          string
 	ReviewCount     int
-	Popular         bool
 }
 
 // type PopularHotel struct {
@@ -38,7 +37,7 @@ func (h *Hotel) GetPopularHotels() ([]Hotel, error) {
 
 	query := `
 	SELECT hotels.id, hotels.name, hotels.city,	hotels.rating, hotels.images, COALESCE(MIN(rooms.price_per_night), 0) AS min_price_per_night, COUNT(reviews.id) AS review_count FROM hotels LEFT JOIN reviews
-	ON hotels.id = reviews.hotel_id LEFT JOIN rooms ON hotels.id = rooms.hotel_id WHERE hotels.popular = 1 GROUP BY hotels.id;`
+	ON hotels.id = reviews.hotel_id INNER JOIN rooms ON hotels.id = rooms.hotel_id WHERE hotels.popular = 1 GROUP BY hotels.id ORDER BY min_price_per_night;`
 
 	rows, err := db.Query(query)
 	if err != nil {

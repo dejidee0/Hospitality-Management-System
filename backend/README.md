@@ -12,14 +12,16 @@ or use the make command
 
 ## Endpoints Documentation
 
-1. GET /health
+<!-- this endpoint checks if the server is running fine -->
+1. GET /v1/health
 
-2. POST /auth/signup
+endpoint creates a user, expects [email: string, password: string]
+2. POST /v1/auth/signup
     Payload:
         - email     [required]
         - password  [required]
 
-3. POST /auth/login
+3. POST /v1/auth/login
     Payload:
         - email     [required]
         - password  [required]
@@ -27,15 +29,28 @@ or use the make command
         {message, token}
 
 <!-- IGNORE THIS -->
-4. GET /auth/profile
+4. GET /v1/auth/profile
 <!-- IT'S JUST FOR TESTING PURPOSES -->
 
-5. GET /auth/reset-password
+<!-- this endpoint sends a reset token to the supplied email, token expires in 1hr -->
+5. GET /v1/auth/reset-password
     Query Parameter
         - email
 
-
-6. POST /auth/change-password
+<!-- endpoint changes password to the newly supplied password, provided the token is valid -->
+6. POST /v1/auth/change-password
     Payload:
         - token
         - password
+
+<!-- this gets the data required for the home page -->
+7. GET /v1/index
+    returns:
+        data: {
+			popular_hotels: list of popular hotels,
+			trending_destinations: list of trending destinations,
+			property_types:  list of property_types,
+			blogs: list of recent travel articles
+		}
+
+8. 
