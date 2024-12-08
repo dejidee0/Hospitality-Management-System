@@ -37,7 +37,7 @@ CREATE TABLE hotels(
     agent_id VARCHAR(36) NOT NULL,
     FOREIGN KEY (agent_id) REFERENCES users(id)
 );
-
+ 
 INSERT INTO hotels (id, name, description, address, city, state, postal_code, country, part_of_group, part_of_chain, popular, agent_id) 
 VALUES 
 ('1','Eko Hotel','hdghdgdyd hdhdhdhdf','23, gddgdend gdttdd', 'Eko-isolo','lagos','1234','nigeria',0,1,1,'23'),

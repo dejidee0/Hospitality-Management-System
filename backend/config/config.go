@@ -22,6 +22,24 @@ var _ = LoadEnv()
 var host string = os.Getenv("SERVER_HOST")
 var port string = os.Getenv("SERVER_PORT")
 var Server_address = fmt.Sprintf("%s:%s", host, port)
+
+var (
+	DBDriver, DBUrl = func() (string, string) {
+		driver := os.Getenv("DB_DRIVER")
+		if driver == "" {
+			return "sqlite3", "data/hms.db"
+		}
+		var dbHost = os.Getenv("DATABASE_HOST")
+		var dbPort = os.Getenv("DATABASE_PORT")
+
+		var dbName = os.Getenv("DATABASE_NAME")
+		var dbUser = os.Getenv("DATABASE_USERNAME")
+		var dbPassword = os.Getenv("DATABASE_PASSWORD")
+		var url = fmt.Sprintf("server=%s;port=%s;database=%s;user=%s;password=%s", dbHost, dbPort, dbName, dbUser, dbPassword)
+		return driver, url
+	}()
+)
+
 var JWTKey = []byte(os.Getenv("JWT_SECRET_KEY"))
 
 var MailServer = os.Getenv("MAIL_SERVER")
