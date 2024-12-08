@@ -9,7 +9,7 @@ import (
 type Blog struct {
 	Id           string
 	Title        string
-	Author       string
+	Author       string `json:"author,omitempty"`
 	DisplayImage string
 	CreatedAt    time.Time
 }
