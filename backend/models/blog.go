@@ -16,10 +16,14 @@ type Blog struct {
 
 func (b *Blog) GetRecentBlogs() ([]Blog, error) {
 
-	db := database.GetDB()
+	db, err := database.GetDB()
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
 	defer db.Close()
 
-	query := `SELECT id, title, display_image, created_at FROM blogs ORDER BY created_at DESC LIMIT 3;`
+	query := `SELECT TOP 3 id, title, display_image, created_at FROM blogs ORDER BY created_at DESC;`
 
 	rows, err := db.Query(query)
 	if err != nil {
