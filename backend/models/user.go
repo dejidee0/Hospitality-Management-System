@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"hms/database"
-	"log"
 
 	"github.com/google/uuid"
 )
@@ -32,12 +31,12 @@ func NewUser(email, password string) (*User, error) {
 }
 
 func (u *User) Save() error {
-	db, err := database.GetDB()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-	defer db.Close()
+	// db, err := database.GetDB()
+	// if err != nil {
+	// 	log.Println(err)
+	// 	return err
+	// }
+	// defer db.Close()
 
 	id := uuid.New().String()
 
@@ -47,7 +46,7 @@ func (u *User) Save() error {
 
 	query := `INSERT INTO users (id, email, password) VALUES (@id, @Email, @Password);`
 
-	_, err = db.Exec(query,
+	_, err := database.DB.Exec(query,
 		sql.Named("id", id),
 		sql.Named("Email", u.Email),
 		sql.Named("Password", hashed_password),
@@ -59,18 +58,18 @@ func (u *User) Save() error {
 }
 
 func (u *User) GetUserByEmail(email string) error {
-	db, err := database.GetDB()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-	defer db.Close()
+	// db, err := database.GetDB()
+	// if err != nil {
+	// 	log.Println(err)
+	// 	return err
+	// }
+	// defer db.Close()
 
 	query := `SELECT id FROM users WHERE email = @email;`
 
-	row := db.QueryRow(query, sql.Named("email", email))
+	row := database.DB.QueryRow(query, sql.Named("email", email))
 	// var user models.User
-	err = row.Scan(&u.Id)
+	err := row.Scan(&u.Id)
 	if err != nil {
 		return err
 	}
@@ -78,16 +77,16 @@ func (u *User) GetUserByEmail(email string) error {
 }
 
 func (u *User) UpdateResetPasswordToken(token string) error {
-	db, err := database.GetDB()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-	defer db.Close()
+	// db, err := database.GetDB()
+	// if err != nil {
+	// 	log.Println(err)
+	// 	return err
+	// }
+	// defer db.Close()
 
 	query := `UPDATE users SET change_password_token = @reset_token WHERE id = @id;`
 
-	_, err = db.Exec(query, sql.Named("reset_token", token), sql.Named("id", u.Id))
+	_, err := database.DB.Exec(query, sql.Named("reset_token", token), sql.Named("id", u.Id))
 	if err != nil {
 		return err
 	}
@@ -95,16 +94,16 @@ func (u *User) UpdateResetPasswordToken(token string) error {
 }
 
 func (u *User) UpdatePassword(email, password string) error {
-	db, err := database.GetDB()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-	defer db.Close()
+	// db, err := database.GetDB()
+	// if err != nil {
+	// 	log.Println(err)
+	// 	return err
+	// }
+	// defer db.Close()
 
 	query := `UPDATE users SET password = @password, change_password_token = NULL WHERE email = @email;`
 
-	_, err = db.Exec(query, sql.Named("password", password), sql.Named("email", email))
+	_, err := database.DB.Exec(query, sql.Named("password", password), sql.Named("email", email))
 	if err != nil {
 		return err
 	}

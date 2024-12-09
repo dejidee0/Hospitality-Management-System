@@ -105,6 +105,7 @@ CREATE TABLE reviews (
     location INT, -- rate 1-10
     amenities INT, -- rate 1-10
     services INT, -- rate 1-10
+    rating AS ((cleanliness + location + amenities + services) / 4), -- computed average rating
     one_word VARCHAR(25), -- e.g., outstanding, poor, etc.
     FOREIGN KEY (hotel_id) REFERENCES hotels(id)
 );

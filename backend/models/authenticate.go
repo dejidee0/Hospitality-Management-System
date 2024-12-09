@@ -4,18 +4,17 @@ import (
 	"database/sql"
 	"errors"
 	"hms/database"
-	"log"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
 func Authenticate(email, password string) (*User, error) {
-	db, err := database.GetDB()
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
-	defer db.Close()
+	// db, err := database.GetDB()
+	// if err != nil {
+	// 	log.Println(err)
+	// 	return nil, err
+	// }
+	// defer db.Close()
 
 	// hash password
 	// hash_pass := HashPassword(password)
@@ -23,10 +22,10 @@ func Authenticate(email, password string) (*User, error) {
 
 	// query := `SELECT id, email, password FROM users WHERE email = ?;`
 	query := `SELECT id, email, password FROM users WHERE email = @email;`
-	row := db.QueryRow(query, sql.Named("email", email))
+	row := database.DB.QueryRow(query, sql.Named("email", email))
 
 	var user User
-	err = row.Scan(&user.Id, &user.Email, &user.Password)
+	err := row.Scan(&user.Id, &user.Email, &user.Password)
 
 	if err != nil {
 		if err == sql.ErrNoRows {
