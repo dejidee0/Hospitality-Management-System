@@ -1,15 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import AuthBase from "./AuthBase";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { CgDanger } from "react-icons/cg";
-import Navbar from "../components/Navbar";
-import sideImg from "../assets/signup-side-image.svg";
+import Loading from "../components/ButtonLoader";
 import googleIcon from "../assets/google_icon.svg";
 import facebookIcon from "../assets/facebook_icon.svg";
 
 const Signup = () => {
-  const [showPassword, setShowPassword] = useState(false); //for password toggle
-  const currentYear = new Date().getFullYear(); // Dynamically get the current year for copyright section
+  const [showPassword, setShowPassword] = useState(false); //for password toggles
+  const [loading, setLoading] = useState(false); //for loading state
+  const navigate = useNavigate(); // Initialize navigate function
 
   // State to hold the form data
   const [formData, setFormData] = useState({
@@ -77,6 +78,7 @@ const Signup = () => {
     e.preventDefault(); // Prevent the default form submission behavior
 
     if (validate()) {
+      setLoading(true); // Set loading state to true
       try {
         const response = await fetch("http://localhost:8080/auth/signup", {
           method: "POST",
@@ -94,8 +96,12 @@ const Signup = () => {
 
         const data = await response.json();
         console.log("Response:", data);
+        // Navigate to the Sign In page after successful signup
+        navigate("/signin");
       } catch (error) {
         console.error("Error:", error.message);
+      } finally {
+        setLoading(false); // Set loading state to false
       }
 
       // Clear the form
@@ -113,197 +119,171 @@ const Signup = () => {
   };
   return (
     <>
-      <Navbar />
-      <div
-        className="flex justify-center items-center h-[160vh]  flex-col gap-[52px]"
-        style={{ backgroundColor: "var(--auth-bg-color)" }}
-      >
-        {/* Center Item container*/}
-        <div className="bg-white w-[61.87rem] h-[42.125rem] rounded-[1.5rem] flex justify-between">
-          <div>
-            <img
-              src={sideImg}
-              alt="Palmtrees and a pool"
-              className="h-[42.125rem] w-[22.75rem] rounded-tl-3xl rounded-bl-3xl"
-            />
+      <AuthBase>
+        <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+          {/* FORM HEADING */}
+          <div className="flex flex-col gap-2">
+            <h4 className="font-semibold text-[22px] leading-[26.4px] text-[black]">
+              Create an account
+            </h4>
+            <span className="font-normal text-sm leading-[19.6px] text-[black] flex gap-[5px]">
+              <p>Have an account?</p>
+              <Link
+                to="/signin"
+                className="text-[color:var(--primary-purple)] underline"
+              >
+                Sign In
+              </Link>
+            </span>
           </div>
-          <div className="rounded-[1.5rem] w-[644px] bg-white p-12">
-            <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
-              {/* FORM HEADING */}
-              <div className="flex flex-col gap-2">
-                <h4 className="font-semibold text-[22px] leading-[26.4px] text-[black]">
-                  Create an account
-                </h4>
-                <span className="font-normal text-sm leading-[19.6px] text-[black] flex gap-[5px]">
-                  <p>Have an account?</p>
-                  <Link
-                    to="/signin"
-                    className="text-[color:var(--primary-purple)] underline"
-                  >
-                    Sign In
-                  </Link>
+          {/* Form content */}
+          <div className="flex flex-col gap-[32px]">
+            {/* Other means of authetication */}
+            <div className="flex gap-[15px]">
+              {/* Sign up with Google */}
+              <div className="bg-[color:var(--default-grey)] h-12 w-[266.5px] flex justify-center items-center gap-2.5 rounded-lg">
+                <img src={googleIcon} alt="Google Icon" className="w-6 h-6" />
+                <Link className="text-sm font-normal leading-[19.6px]">
+                  Google
+                </Link>
+              </div>
+              <div className="bg-[color:var(--default-grey)] h-12 w-[266.5px] flex justify-center items-center gap-2.5 rounded-lg">
+                <img
+                  src={facebookIcon}
+                  alt="facebook login"
+                  className="w-6 h-6"
+                />
+                <Link className="text-sm font-normal leading-[19.6px]">
+                  Facebook
+                </Link>
+              </div>
+            </div>
+
+            {/* Default signup */}
+            <div className="flex items-center justify-center gap-3 relative text-center text-sm font-normal text-black">
+              <span className=" w-[200.5px] grow h-px bg-[#E6E7E6] mr-2.5"></span>
+              Or Sign up with
+              <span className=" w-[200.5px] grow h-px bg-[#E6E7E6] mr-2.5"></span>
+            </div>
+
+            <div className="flex flex-col gap-5">
+              <div className="input-group">
+                <input
+                  className="input  w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
+                  type="text"
+                  id="email"
+                  name="email"
+                  autoComplete="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus("email")} // Clear the email error on focus
+                  placeholder=""
+                  required
+                />
+
+                <label className="placeholder" htmlFor="email">
+                  {" "}
+                  Email{" "}
+                </label>
+
+                {/* Display email error message */}
+                {errors.email && (
+                  <div className="flex items-center gap-1 h-5 mt-[5px]">
+                    <CgDanger className="w-[16.7px] h-[16.7px] bg-[#EF1212] text-white rounded-[999px]" />
+                    <p className="text-[#EF1212] text-xs font-normal leading-[16.8px]">
+                      {errors.email}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              <div className="input-group">
+                <input
+                  className="input w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
+                  type={showPassword ? "text" : "password"}
+                  placeholder=""
+                  required
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus("password")} // Clear the password error on focus
+                />
+
+                <label className="placeholder" htmlFor="password">
+                  {" "}
+                  Password{" "}
+                </label>
+
+                <span
+                  className="password__toggle hidden absolute -translate-y-2/4 cursor-pointer text-[#666] right-5 top-[25px]"
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  {showPassword ? <LuEye /> : <LuEyeOff />}
                 </span>
+
+                {errors.password && (
+                  <div className="flex items-center gap-1 h-5 mt-[5px]">
+                    <CgDanger className="w-[16.7px] h-[16.7px] bg-[#EF1212] text-white rounded-[999px]" />
+                    <p className="text-[#EF1212] text-xs font-normal leading-[16.8px]">
+                      {errors.password}
+                    </p>
+                  </div>
+                )}
               </div>
-              {/* Form content */}
-              <div className="flex flex-col gap-[32px]">
-                {/* Other means of authetication */}
-                <div className="flex gap-[15px]">
-                  {/* Sign up with Google */}
-                  <div className="bg-[color:var(--default-grey)] h-12 w-[266.5px] flex justify-center items-center gap-2.5 rounded-lg">
-                    <img
-                      src={googleIcon}
-                      alt="Google Icon"
-                      className="w-6 h-6"
-                    />
-                    <Link className="text-sm font-normal leading-[19.6px]">
-                      Google
-                    </Link>
+
+              <div className="input-group">
+                <input
+                  className="input w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
+                  type={showPassword ? "text" : "password"}
+                  placeholder=""
+                  required
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus("confirmPassword")} // Clear the confirm password error on focus
+                />
+                <label className="placeholder" htmlFor="confirmPassword">
+                  Confirm Password{" "}
+                </label>
+                <span
+                  className="password__toggle hidden absolute -translate-y-2/4 cursor-pointer text-[#666] right-5 top-[25px]"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <LuEye /> : <LuEyeOff />}
+                </span>
+
+                {errors.confirmPassword && (
+                  <div className="flex items-center gap-1 h-5 mt-[5px]">
+                    <CgDanger className="w-[16.7px] h-[16.7px] bg-[#EF1212] text-white rounded-[999px]" />
+                    <p className="text-[#EF1212] text-xs font-normal leading-[16.8px]">
+                      {errors.confirmPassword}
+                    </p>
                   </div>
-                  <div className="bg-[color:var(--default-grey)] h-12 w-[266.5px] flex justify-center items-center gap-2.5 rounded-lg">
-                    <img
-                      src={facebookIcon}
-                      alt="facebook login"
-                      className="w-6 h-6"
-                    />
-                    <Link className="text-sm font-normal leading-[19.6px]">
-                      Facebook
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Default signup */}
-                <div className="flex items-center justify-center gap-3 relative text-center text-sm font-normal text-black">
-                  <span className=" w-[200.5px] grow h-px bg-[#E6E7E6] mr-2.5"></span>
-                  Or Sign up with
-                  <span className=" w-[200.5px] grow h-px bg-[#E6E7E6] mr-2.5"></span>
-                </div>
-
-                <div className="flex flex-col gap-5">
-                  <div className="input-group">
-                    <input
-                      className="input  w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
-                      type="text"
-                      id="email"
-                      name="email"
-                      autoComplete="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      onFocus={() => handleFocus("email")} // Clear the email error on focus
-                      placeholder=""
-                      required
-                    />
-
-                    <label className="placeholder" htmlFor="email">
-                      {" "}
-                      Email{" "}
-                    </label>
-
-                    {/* Display email error message */}
-                    {errors.email && (
-                      <div className="flex items-center gap-1 h-5 mt-[5px]">
-                        <CgDanger className="w-[16.7px] h-[16.7px] bg-[#EF1212] text-white rounded-[999px]" />
-                        <p className="text-[#EF1212] text-xs font-normal leading-[16.8px]">
-                          {errors.email}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="input-group">
-                    <input
-                      className="input w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
-                      type={showPassword ? "text" : "password"}
-                      placeholder=""
-                      required
-                      id="password"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      onFocus={() => handleFocus("password")} // Clear the password error on focus
-                    />
-
-                    <label className="placeholder" htmlFor="password">
-                      {" "}
-                      Password{" "}
-                    </label>
-
-                    <span
-                      className="password__toggle hidden absolute -translate-y-2/4 cursor-pointer text-[#666] right-5 top-[25px]"
-                      onClick={() => setShowPassword(!showPassword)}
-                      onMouseDown={(e) => e.preventDefault()}
-                    >
-                      {showPassword ? <LuEye /> : <LuEyeOff />}
-                    </span>
-
-                    {errors.password && (
-                      <div className="flex items-center gap-1 h-5 mt-[5px]">
-                        <CgDanger className="w-[16.7px] h-[16.7px] bg-[#EF1212] text-white rounded-[999px]" />
-                        <p className="text-[#EF1212] text-xs font-normal leading-[16.8px]">
-                          {errors.password}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="input-group">
-                    <input
-                      className="input w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
-                      type={showPassword ? "text" : "password"}
-                      placeholder=""
-                      required
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      onFocus={() => handleFocus("confirmPassword")} // Clear the confirm password error on focus
-                    />
-                    <label className="placeholder" htmlFor="confirmPassword">
-                      Confirm Password{" "}
-                    </label>
-                    <span
-                      className="password__toggle hidden absolute -translate-y-2/4 cursor-pointer text-[#666] right-5 top-[25px]"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <LuEye /> : <LuEyeOff />}
-                    </span>
-
-                    {errors.confirmPassword && (
-                      <div className="flex items-center gap-1 h-5 mt-[5px]">
-                        <CgDanger className="w-[16.7px] h-[16.7px] bg-[#EF1212] text-white rounded-[999px]" />
-                        <p className="text-[#EF1212] text-xs font-normal leading-[16.8px]">
-                          {errors.confirmPassword}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-[548px] h-12 border border-[color:var(--primary-purple)] bg-[color:var(--primary-purple)] flex justify-center items-center font-medium [font-style:14px] leading-[19.6px] text-white rounded-lg border-solid"
-                  >
-                    Sign Up
-                  </button>
-                  <span className="flex justify-center gap-[5px] font-normal text-sm leading-[19.6px] text-center">
-                    <p>By signing up you accept our</p>
-                    <Link className="text-[color:var(--primary-purple)]">
-                      Terms{" "}
-                    </Link>{" "}
-                    and{" "}
-                    <Link className=" text-[color:var(--primary-purple)]">
-                      Privacy Policy
-                    </Link>
-                  </span>
-                </div>
+                )}
               </div>
-            </form>
+              <button
+                type="submit"
+                className="w-[548px] h-12 border border-[color:var(--primary-purple)] bg-[color:var(--primary-purple)] flex justify-center items-center font-medium [font-style:14px] leading-[19.6px] text-white rounded-lg border-solid"
+              >
+                {loading ? <Loading /> : "Sign Up"}
+              </button>
+              <span className="flex justify-center gap-[5px] font-normal text-sm leading-[19.6px] text-center">
+                <p>By signing up you accept our</p>
+                <Link className="text-[color:var(--primary-purple)]">
+                  Terms{" "}
+                </Link>{" "}
+                and{" "}
+                <Link className=" text-[color:var(--primary-purple)]">
+                  Privacy Policy
+                </Link>
+              </span>
+            </div>
           </div>
-        </div>
-
-        <div>
-          <p className="font-normal text-base leading-[22.4px] text-center text-[#393b3a]">
-            &copy; {currentYear} FindPeace Ltd
-          </p>
-        </div>
-      </div>
+        </form>
+      </AuthBase>
     </>
   );
 };
