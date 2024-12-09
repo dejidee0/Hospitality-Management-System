@@ -2,22 +2,19 @@ package database
 
 import (
 	"database/sql"
+	"errors"
 	"hms/config"
-	"log"
 
-	_ "github.com/mattn/go-sqlite3"
+	// _ "github.com/mattn/go-sqlite3"
+	_ "github.com/denisenkom/go-mssqldb"
 )
 
-func GetDB() *sql.DB {
+func GetDB() (*sql.DB, error) {
 	// db, err := sql.Open("sqlite3", "data/hms.db")
 	db, err := sql.Open(config.DBDriver, config.DBUrl)
 
 	if err != nil {
-		log.Fatalf("Failed to connect to the database: %v\n", err)
+		return nil, errors.New("failed to connect to the database: " + err.Error())
 	}
-	if err = db.Ping(); err != nil {
-		log.Printf("Not pinging...: %v", err)
-		return nil
-	}
-	return db
+	return db, nil
 }

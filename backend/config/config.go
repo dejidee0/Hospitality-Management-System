@@ -35,7 +35,7 @@ var (
 		var dbName = os.Getenv("DATABASE_NAME")
 		var dbUser = os.Getenv("DATABASE_USERNAME")
 		var dbPassword = os.Getenv("DATABASE_PASSWORD")
-		var url = fmt.Sprintf("server=%s;port=%s;database=%s;user=%s;password=%s", dbHost, dbPort, dbName, dbUser, dbPassword)
+		var url = fmt.Sprintf("server=%s;port=%s;database=%s;user id=%s;password=%s", dbHost, dbPort, dbName, dbUser, dbPassword)
 		return driver, url
 	}()
 )
