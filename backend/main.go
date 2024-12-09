@@ -2,12 +2,29 @@ package main
 
 import (
 	"hms/config"
+	"hms/database"
 	"hms/middleware"
 	"hms/routes"
 	"log"
 
 	"github.com/gin-gonic/gin"
 )
+
+// connect and close database
+func init() {
+	db, err := database.GetDB()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer db.Close()
+
+	log.Println("db connected successfully!")
+	if err = db.Ping(); err != nil {
+		log.Println("failed to ping database...:" + err.Error())
+		return
+	}
+	log.Println("db pinged successfully!")
+}
 
 func main() {
 	r := gin.Default()
