@@ -59,4 +59,4 @@ migratedown:
 	migrate -path database/migrations -database "sqlserver://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}" -verbose down
 
 migrateforce:
-	migrate -path database/migrations -database "sqlserver://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}" force 1
+	migrate -path database/migrations -database "sqlserver://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}" force $(VERSION)
