@@ -44,7 +44,7 @@ endpoint creates a user, expects [email: string, password: string]
         - password
 
 <!-- this gets the data required for the home page -->
-7. GET /v1/index
+7. GET /v1/hotels/index
     returns:
         data: {
 			popular_hotels: list of popular hotels,
@@ -53,4 +53,5 @@ endpoint creates a user, expects [email: string, password: string]
 			blogs: list of recent travel articles
 		}
 
-8. 
+8. GET /v1/hotels/search?state=
+    returns hotels that meet this state criteria
