@@ -54,4 +54,5 @@ endpoint creates a user, expects [email: string, password: string]
 		}
 
 8. GET /v1/hotels/search?state=
-    returns hotels that meet this state criteria
+    returns hotels from the supplied state with the neccessary details for the search page
+
