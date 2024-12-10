@@ -80,7 +80,7 @@ const Signup = () => {
     if (validate()) {
       setLoading(true); // Set loading state to true
       try {
-        const response = await fetch("http://localhost:8080/auth/signup", {
+        const response = await fetch("http://localhost:8080/v1/auth/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
