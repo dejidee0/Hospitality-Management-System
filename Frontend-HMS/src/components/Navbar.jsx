@@ -28,73 +28,31 @@ const Navbar = () => {
   };
 
   return (
-    <header
-      style={{
-        position: "fixed",
-        width: "100vw",
-        backgroundColor: "#ffffff",
-        height: "80px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "0px 6.6rem",
-        zIndex: 1000,
-        boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
-      }}
-    >
+    <header className="px-4 md:px-[6.6rem] min-w-full h-20 fixed bg-white flex justify-between items-center z-[1000] shadow-[0px_2px_5px_rgba(0,0,0,0.1)]">
       {/* Logo */}
       <div>
         <img src={logoImg} alt="Find peace logo" />
       </div>
 
       {/* Flag, Language, and Currency Dropdowns */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "17px",
-          width: "255px",
-        }}
-      >
+      <div className="hidden md:flex items-center gap-4 w-64">
         {/* Country Dropdown */}
-        <div style={{ position: "relative" }} onBlur={handleBlur} tabIndex={0}>
+        <div className="relative" onBlur={handleBlur} tabIndex={0}>
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              cursor: "pointer",
-            }}
+            className="flex items-center gap-2 cursor-pointer"
             onClick={() => toggleDropdown("country")}
           >
-            <Flag code={country} style={{ width: "24px", height: "16px" }} />
+            <Flag code={country} className="w-6 h-4" />
             <FaChevronDown size={12} />
           </div>
           {/* Dropdown Menu */}
           {openDropdown === "country" && (
-            <div
-              style={{
-                position: "absolute",
-                top: "100%",
-                left: 0,
-                backgroundColor: "#ffffff",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                borderRadius: "4px",
-                marginTop: "8px",
-                animation: "fadeIn 0.2s ease-in-out",
-                zIndex: 100,
-              }}
-            >
+            <div className="absolute top-full left-0 bg-white shadow-[0px_4px_6px_rgba(0,0,0,0.1)] rounded-md mt-2 z-[100] animate-[fadeIn_0.2s_ease-in-out]  flex flex-col items-start gap-2.5 text-left pl-4 pt-4  w-44 h-34">
+              <p>Country</p>
               {countries.map((c) => (
                 <div
                   key={c.code}
-                  style={{
-                    padding: "8px 16px",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                  }}
+                  className="cursor-pointer gap-2"
                   onClick={() => {
                     setCountry(c.code);
                     setOpenDropdown("");

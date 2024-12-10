@@ -9,12 +9,9 @@ const AuthBase = ({ children }) => {
     <>
       <>
         <Navbar />
-        <div
-          className="flex justify-center items-center h-[auto]  flex-col gap-[52px]"
-          style={{ backgroundColor: "var(--auth-bg-color)" }}
-        >
+        <div className="flex justify-center items-center min-h-full flex-col gap-[52px] md:bg-auth-bg-color">
           {/* Center Item container*/}
-          <div className="bg-white w-[61.87rem] h-[42.125rem] rounded-[1.5rem] flex justify-between mt-40 mb-10">
+          <div className="bg-white w-[61.87rem] h-[42.125rem] rounded-[1.5rem] flex justify-center lg:justify-between mt-40 mb-10">
             <div className="hidden sm:hidden lg:block">
               <img
                 src={sideImg}
@@ -22,7 +19,7 @@ const AuthBase = ({ children }) => {
                 className="h-[42.125rem] w-[22.75rem] rounded-tl-3xl rounded-bl-3xl"
               />
             </div>
-            <div className="rounded-[1.5rem] lg:w-[40.25rem] bg-white p-12 w-80">
+            <div className="bg-white min-w-80 md:p-12 md:rounded-[1.5rem] md:w-[40.25rem]">
               {children}
             </div>
           </div>

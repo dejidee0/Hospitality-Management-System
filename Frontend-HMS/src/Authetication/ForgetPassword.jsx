@@ -20,6 +20,9 @@ const ForgetPassword = () => {
         }
       );
 
+      localStorage.setItem("resetEmail", email);
+      navigate("/reset-link");
+
       if (response.ok) {
         setMessage("Check your email for the reset link.");
         // Redirect to reset link page with email passed as state
@@ -80,7 +83,7 @@ const ForgetPassword = () => {
 
               <button
                 type="submit"
-                className="w-[548px] h-12 border border-[color:var(--primary-purple)] bg-[color:var(--primary-purple)] flex justify-center items-center font-medium [font-style:14px] leading-[19.6px] text-white rounded-lg border-solid"
+                className="w-[548px] h-12 border border-primary-purple bg-primary-purple flex justify-center items-center font-medium [font-style:14px] leading-[19.6px] text-white rounded-lg border-solid"
               >
                 {loading ? <Loading /> : " Reset password"}
               </button>
