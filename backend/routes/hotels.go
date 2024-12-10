@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"database/sql"
 	"hms/models"
 	"hms/utils"
 	"log"
@@ -54,5 +55,43 @@ func HotelsSearch(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"hotels": hotels,
+	})
+}
+
+func HotelDetail(ctx *gin.Context) {
+	hotel_id := ctx.Params.ByName("hotel_id")
+	if hotel_id == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid hotel_id",
+		})
+		return
+	}
+	var hotel models.Hotel
+
+	err := hotel.GetHotelByID(hotel_id)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"hotel": nil,
+			})
+			return
+		}
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	rooms := hotel.GetRooms()
+	reviews := hotel.GetReviews()
+	policy := hotel.GetPolicy()
+	similarHotels := hotel.GetSimilar()
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"hotel":    hotel,
+		"rooms":    rooms,
+		"reviews":  reviews,
+		"policies": policy,
+		"similar":  similarHotels,
 	})
 }
