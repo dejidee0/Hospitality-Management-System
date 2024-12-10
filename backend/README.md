@@ -56,3 +56,20 @@ endpoint creates a user, expects [email: string, password: string]
 8. GET /v1/hotels/search?state=
     returns hotels from the supplied state with the neccessary details for the search page
 
+9. GET /v1/hotels/<hotel_id>
+    returns details about the hotel with all the available rooms and their details
+
+10. POST /v1/hotels/booking
+    Payload:
+        room-id:            string   
+	    guest-names:        string      --- comma separated names in case of multiple guests
+        phone-numbers:      string      --- comma separated phones in case of multiple guests
+        emails:             string      --- comma separated emails in case of multiple guests
+        special-requests:   string
+        payment-method:     string
+        quantity:           int         --- number of rooms
+        promo-code:         string      --- empty string '' if not applicable
+        check-in            datetime    --- in this format "2006-01-02T15:00:00Z"
+        check-out           datetime    --- in this format "yyyy-mm-ddThr:mm:ssZ"
+        number-of-night     int   
+        
