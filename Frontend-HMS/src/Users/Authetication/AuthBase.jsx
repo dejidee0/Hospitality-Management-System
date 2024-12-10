@@ -1,6 +1,6 @@
 // most of the pages look alike so this is the base component for all the pages
 import Navbar from "../components/Navbar";
-import sideImg from "../assets/signup-side-image.svg";
+import sideImg from "../../assets/signup-side-image.svg";
 import PropTypes from "prop-types";
 
 const AuthBase = ({ children }) => {

@@ -6,6 +6,12 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        'primary-purple': '#5627ff',
+        'auth-bg-color': '#fafafa',
+        'light-background': '#ffffff',
+        'default-grey': '#fafafa',
+      },
     },
   },
   plugins: [],
