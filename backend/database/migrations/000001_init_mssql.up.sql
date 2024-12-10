@@ -15,13 +15,13 @@ CREATE TABLE users (
     change_password_token VARCHAR(255)
 );
  
--- hotel schema
+-- hotel schema 
 CREATE TABLE hotels(
     id VARCHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     property_type VARCHAR(50) NOT NULL, --Hotel & suite, Apartment, Resort, Guest House, etc not (summary in figma!)or say summary is replaced with type
-    description TEXT NOT NULL,
-    address TEXT NOT NULL,
+    description VARCHAR(2048) NOT NULL,
+    address VARCHAR(512) NOT NULL,
     city VARCHAR(50) NOT NULL,
     state VARCHAR(50) NOT NULL,
     postal_code VARCHAR(20) NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE reviews (
 CREATE TABLE blogs (
     id VARCHAR(36) PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    body TEXT,
+    body VARCHAR(MAX),
     author VARCHAR(50),
     display_image VARCHAR(2048),
     created_at DATETIME DEFAULT GETDATE(),

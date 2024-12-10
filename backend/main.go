@@ -33,6 +33,7 @@ func main() {
 	// this serves the data for the home page
 	r.GET("/v1/hotels/index", routes.HotelsIndex)
 	r.GET("/v1/hotels/search", routes.HotelsSearch)
+	r.GET("/v1/hotels/:hotel_id", routes.HotelDetail)
 
 	if err := r.Run(config.Server_address); err != nil {
 		log.Fatal(err)
