@@ -95,3 +95,33 @@ func HotelDetail(ctx *gin.Context) {
 		"similar":  similarHotels,
 	})
 }
+
+func HotelBooking(ctx *gin.Context) {
+	// get the booking detail (the data)
+	var boookingData utils.BookingDetails
+	err := ctx.Bind(&boookingData)
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	// calculate the total
+	amount, err := boookingData.CalculateTotalAmount()
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error":   err,
+			"ammount": amount,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data":   boookingData,
+		"amount": amount,
+	})
+
+}

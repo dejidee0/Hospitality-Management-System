@@ -21,6 +21,7 @@ func SendToken(token, email string) error {
 
 	err := dialer.DialAndSend(mailer)
 	if err != nil {
+		// fmt.Println(err)
 		return err
 	}
 
