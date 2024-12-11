@@ -57,7 +57,7 @@
                 console.log('Success:', result);
                 alert('Form submitted successfully!');
                 // console.log(`${['PpaystackResponse']['data']}`)
-                let access_code = result['PpaystackResponse']['data']['access_code']
+                let access_code = result['paystack-access-code']
                 console.log("acces code is: "+ access_code)
                 const popup = new PaystackPop()
                 popup.resumeTransaction(access_code)
