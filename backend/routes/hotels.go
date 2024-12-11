@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"hms/config"
 	"hms/models"
 	"hms/utils"
 	"io"
@@ -169,11 +170,9 @@ func HotelBooking(ctx *gin.Context) {
 	}
 
 	// Add headers, including the Authorization header
-	pays_test_key := "sk_test_b714ce140b7e2a4528ed06ec6b570a7be44407d0"
-	// pays_public_test_key := "pk_test_27360248b4306e6b78e034223ef7bfc620f2e2e9"
 	req.Header.Set("Content-Type", "application/json")
 	// req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-	req.Header.Set("Authorization", "Bearer "+pays_test_key)
+	req.Header.Set("Authorization", "Bearer "+config.PAYSTACK_SECRET_KEY_TEST)
 
 	// Use http.Client to send the request
 	client := &http.Client{}
