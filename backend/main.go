@@ -35,6 +35,7 @@ func main() {
 	r.GET("/v1/hotels/search", routes.HotelsSearch)
 	r.GET("/v1/hotels/:hotel_id", routes.HotelDetail)
 	r.POST("/v1/hotels/booking", routes.HotelBooking)
+	r.GET("/v1/hotels/booking/verify", routes.HotelBookingVerify)
 
 	if err := r.Run(config.Server_address); err != nil {
 		log.Fatal(err)

@@ -74,7 +74,7 @@ CREATE TABLE rooms (
 
 -- hotel bookings schema
 CREATE TABLE hotel_bookings (
-    id VARCHAR(36) PRIMARY KEY, -- this will be changed in sql server since i cant have two primary keys
+    id VARCHAR(36) PRIMARY KEY,
     booking_number INT IDENTITY(1,1),
     room_id VARCHAR(36) NOT NULL,
     guest_names VARCHAR(512) NOT NULL, --comma separated names in case of multiple guests
