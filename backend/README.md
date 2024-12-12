@@ -72,4 +72,38 @@ endpoint creates a user, expects [email: string, password: string]
         check-in            datetime    --- in this format "2006-01-02T15:00:00Z"
         check-out           datetime    --- in this format "yyyy-mm-ddThr:mm:ssZ"
         number-of-night     int   
-        
+    
+    Response:
+        {
+            authorization-url: [string],
+            booking-id: [string],
+            booking-number: [int],
+            email: [string],
+            paystack-access-code: [string],
+            total-amount: [float],
+            tx-reference: [string]
+        }
+
+11. GET /v1/hotels/booking/verify?reference={REFERENCE}&booking_id={BOOKING_ID}
+        Response body:
+            {
+                "status": "success"
+                "message": [string],
+                "data": {
+                    "guest-name": [string],
+                    "booking-number": [int],
+                    "email": [string],
+                    "check-in": [datetime],
+                    "check-out": [datetime],
+                    "rooms": [int],
+                    "total-price": [float],
+                    "room-name": [string],
+                    "amenities": [string],
+                    "price-per-night": [string],
+                    "image": [string],
+                    "hotel-name": [string],
+                    "tax-rate":[string],
+                    "discount": [float],
+                }
+            }
+
