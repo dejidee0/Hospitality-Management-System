@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://js.paystack.co/v2/inline.js"></script>
+    <title>Document</title>
+</head>
+<body style="text-align: center;">
+    <h1>welcome to FindPeace</h1>
+
+    <form id="myForm" action="">
+        <div>
+            <label for="name" name="guest-names">Name</label>
+            <input type="text" id="name">
+        </div>
+        
+<div><label for="email">Email</label>
+    <input type="email" id="email" name="emails"></div>
+        
+<div><label for="roomID">Room ID</label>
+    <input type="text" id="roomID" name="room-id">
+</div>
+        
+        <button onclick="handleForm(event)">Submit</button>
+    </form>
+
+    <script>
+        async function handleForm(event) {
+            event.preventDefault();
+            const form = document.getElementById('myForm');
+      
+            // Collect form data
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            try {
+                // Send fetch request to the backend
+                const response = await fetch('http://127.0.0.1:8080/v1/hotels/booking', {
+                method: 'POST', // or 'GET' depending on your backend
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                });
+
+                if (!response.ok) {
+                    const result = await response.json();
+                    console.log('not Success but:', result);
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('Success:', result);
+                alert('Form submitted successfully!');
+                // console.log(`${['PpaystackResponse']['data']}`)
+                let access_code = result['paystack-access-code']
+                console.log("acces code is: "+ access_code)
+                const popup = new PaystackPop()
+                popup.resumeTransaction(access_code)
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to submit form.');
+            }
+        }  
+
+    </script>
+</body>
+</html>

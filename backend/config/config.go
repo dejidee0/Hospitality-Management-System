@@ -48,6 +48,9 @@ var MailPort = getMailPort()
 var MailUsername = os.Getenv("MAIL_USERNAME")
 var MailPassword = os.Getenv("MAIL_PASSWORD")
 
+var PAYSTACK_SECRET_KEY_TEST = os.Getenv("PAYSTACK_SECRET_KEY_TEST")
+var PAYSTACK_PUBLIC_KEY_TEST = os.Getenv("PAYSTACK_PUBLIC_KEY_TEST")
+
 func getMailPort() int {
 	port, ok := os.LookupEnv("MAIL_PORT")
 	if !ok {
