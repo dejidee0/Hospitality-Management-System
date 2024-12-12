@@ -12,13 +12,13 @@ const Navbar = () => {
   // Dummy data for dropdowns
   const countries = [
     { name: "Nigeria", code: "NG" },
-    { name: "Benin Republic", code: "BJ" },
+    { name: "Benin Republic", code: "BJ" }
   ];
   const languages = ["EN", "FR"];
   const currencies = ["NGN", "CFA"];
 
   // Handle dropdown toggle
-  const toggleDropdown = (dropdown) => {
+  const toggleDropdown = dropdown => {
     setOpenDropdown(openDropdown === dropdown ? "" : dropdown); // Close if open, open if closed
   };
 
@@ -28,7 +28,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="px-4 md:px-[6.6rem] min-w-full h-20 fixed bg-white flex justify-between items-center z-[1000] shadow-[0px_2px_5px_rgba(0,0,0,0.1)]">
+    <header className="px-4 md:px-[6.6rem] min-w-full h-20 fixed top-0 left-0 bg-white flex justify-between items-center z-[1000] shadow-[0px_2px_5px_rgba(0,0,0,0.1)]">
       {/* Logo */}
       <div>
         <img src={logoImg} alt="Find peace logo" />
@@ -46,10 +46,10 @@ const Navbar = () => {
             <FaChevronDown size={12} />
           </div>
           {/* Dropdown Menu */}
-          {openDropdown === "country" && (
+          {openDropdown === "country" &&
             <div className="absolute top-full left-0 bg-white shadow-[0px_4px_6px_rgba(0,0,0,0.1)] rounded-md mt-2 z-[100] animate-[fadeIn_0.2s_ease-in-out]  flex flex-col items-start gap-2.5 text-left pl-4 pt-4  w-44 h-34">
               <p>Country</p>
-              {countries.map((c) => (
+              {countries.map(c =>
                 <div
                   key={c.code}
                   className="cursor-pointer gap-2"
@@ -66,15 +66,14 @@ const Navbar = () => {
                     style={{
                       fontSize: "14px",
                       fontWeight: "500",
-                      lineHeight: "19.6px",
+                      lineHeight: "19.6px"
                     }}
                   >
                     {c.name}
                   </span>
                 </div>
-              ))}
-            </div>
-          )}
+              )}
+            </div>}
         </div>
 
         {/* Language Dropdown */}
@@ -88,7 +87,7 @@ const Navbar = () => {
               borderLeft: "1px solid #b2b3b3",
               borderRight: "1px solid # b2b3b3",
               paddingLeft: "8px",
-              paddingRight: "10px",
+              paddingRight: "10px"
             }}
             onClick={() => toggleDropdown("language")}
           >
@@ -96,7 +95,7 @@ const Navbar = () => {
               style={{
                 fontSize: "14px",
                 fontWeight: "500",
-                lineHeight: "19.6px",
+                lineHeight: "19.6px"
               }}
             >
               {language}
@@ -104,7 +103,7 @@ const Navbar = () => {
             <FaChevronDown size={12} />
           </div>
           {/* Dropdown Menu */}
-          {openDropdown === "language" && (
+          {openDropdown === "language" &&
             <div
               style={{
                 position: "absolute",
@@ -115,15 +114,15 @@ const Navbar = () => {
                 borderRadius: "4px",
                 marginTop: "8px",
                 animation: "fadeIn 0.2s ease-in-out",
-                zIndex: 100,
+                zIndex: 100
               }}
             >
-              {languages.map((lang) => (
+              {languages.map(lang =>
                 <div
                   key={lang}
                   style={{
                     padding: "8px 16px",
-                    cursor: "pointer",
+                    cursor: "pointer"
                   }}
                   onClick={() => {
                     setLanguage(lang);
@@ -132,9 +131,8 @@ const Navbar = () => {
                 >
                   {lang}
                 </div>
-              ))}
-            </div>
-          )}
+              )}
+            </div>}
         </div>
 
         {/* Currency Dropdown */}
@@ -144,7 +142,7 @@ const Navbar = () => {
               display: "flex",
               alignItems: "center",
               gap: "8px",
-              cursor: "pointer",
+              cursor: "pointer"
             }}
             onClick={() => toggleDropdown("currency")}
           >
@@ -152,7 +150,7 @@ const Navbar = () => {
               style={{
                 fontSize: "14px",
                 fontWeight: "500",
-                lineHeight: "19.6px",
+                lineHeight: "19.6px"
               }}
             >
               {currency}
@@ -160,7 +158,7 @@ const Navbar = () => {
             <FaChevronDown size={12} />
           </div>
           {/* Dropdown Menu */}
-          {openDropdown === "currency" && (
+          {openDropdown === "currency" &&
             <div
               style={{
                 position: "absolute",
@@ -171,15 +169,15 @@ const Navbar = () => {
                 borderRadius: "4px",
                 marginTop: "8px",
                 animation: "fadeIn 0.2s ease-in-out",
-                zIndex: 100,
+                zIndex: 100
               }}
             >
-              {currencies.map((cur) => (
+              {currencies.map(cur =>
                 <div
                   key={cur}
                   style={{
                     padding: "8px 16px",
-                    cursor: "pointer",
+                    cursor: "pointer"
                   }}
                   onClick={() => {
                     setCurrency(cur);
@@ -188,9 +186,8 @@ const Navbar = () => {
                 >
                   {cur}
                 </div>
-              ))}
-            </div>
-          )}
+              )}
+            </div>}
         </div>
       </div>
     </header>
