@@ -10,6 +10,7 @@ import (
 type Hotel struct {
 	Id               string  `json:"id,omitempty"`
 	Name             string  `json:"name,omitempty"`
+	PropertyType     string  `json:"property-type,omitempty"`
 	City             string  `json:"city,omitempty"`
 	State            string  `json:"state,omitempty"`
 	Address          string  `json:"address,omitempty"`
@@ -99,10 +100,10 @@ func (h *Hotel) GetHotelsByState(state string) []Hotel {
 	// SELECT hotels.id, hotels.name, hotels.city,	hotels.rating, hotels.images, COALESCE(MIN(rooms.price_per_night), 0) AS min_price_per_night, COUNT(reviews.id) AS review_count FROM hotels LEFT JOIN reviews
 	// ON hotels.id = reviews.hotel_id INNER JOIN rooms ON hotels.id = rooms.hotel_id WHERE hotels.popular = 1 GROUP BY hotels.id, hotels.name, hotels.city, hotels.rating, hotels.images ORDER BY min_price_per_night;`
 
-	query := `SELECT hotels.id, hotels.name, hotels.city, hotels.state, hotels.rating, hotels.images, MAX(hotels.address) As address,
+	query := `SELECT hotels.id, hotels.name, hotels.property_type, hotels.city, hotels.state, hotels.rating, hotels.images, MAX(hotels.address) As address,
 	COALESCE(MIN(rooms.price_per_night), 0) AS min_price_per_night,	COUNT(reviews.id) AS review_count, 
 	AVG(ISNULL(reviews.rating, 0)) AS avg_rating, STRING_AGG(rooms.amenities, ', ') AS amenities FROM hotels LEFT JOIN reviews ON hotels.id = reviews.hotel_id 
-	INNER JOIN rooms ON hotels.id = rooms.hotel_id WHERE hotels.state = @state GROUP BY hotels.id, hotels.name, hotels.city, hotels.state, hotels.rating, hotels.images;`
+	INNER JOIN rooms ON hotels.id = rooms.hotel_id WHERE hotels.state = @state GROUP BY hotels.id, hotels.name, hotels.property_type, hotels.city, hotels.state, hotels.rating, hotels.images;`
 
 	rows, err := database.DB.Query(query, sql.Named("state", state))
 	if err != nil {
@@ -115,7 +116,7 @@ func (h *Hotel) GetHotelsByState(state string) []Hotel {
 	for rows.Next() {
 		var hotel Hotel
 		err = rows.Scan(
-			&hotel.Id, &hotel.Name, &hotel.City, &hotel.State, &hotel.Rating,
+			&hotel.Id, &hotel.Name, &hotel.PropertyType, &hotel.City, &hotel.State, &hotel.Rating,
 			&hotel.Images, &hotel.Address, &hotel.Price_per_night, &hotel.ReviewCount,
 			&hotel.AvgRating, &hotel.Amenities,
 		)
@@ -129,6 +130,7 @@ func (h *Hotel) GetHotelsByState(state string) []Hotel {
 	return hotels
 }
 
+// this will populate data for the hotel pointed to by this method
 func (h *Hotel) GetHotelByID(id string) error {
 
 	query := `SELECT hotels.id, hotels.name, hotels.city, hotels.rating, MAX(hotels.address) AS address, hotels.images, MAX(description) AS description,
