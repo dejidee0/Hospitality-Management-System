@@ -16,4 +16,3 @@ NOTE: make sure you have .env file setup in the directory where you running the 
 
 ## Or simply pull and run directly with this one command
 ```docker run --env-file .env imolebytes/find_peace:1.0.0```
-
