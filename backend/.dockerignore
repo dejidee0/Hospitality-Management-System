@@ -1,2 +1,10 @@
 .env
 data/
+database/migrations
+database/000*
+.gitignore
+Makefile
+notes_for_me
+populateDB.sql
+README.md
+setupDB.sql
