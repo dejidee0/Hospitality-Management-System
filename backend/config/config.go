@@ -13,7 +13,7 @@ func LoadEnv() (err error) {
 	if os.Getenv("ENV") == "dev" {
 		err = godotenv.Load()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("error loading env: %v\n", err)
 		}
 		return
 	}
@@ -55,10 +55,12 @@ var PAYSTACK_SECRET_KEY_TEST = os.Getenv("PAYSTACK_SECRET_KEY_TEST")
 var PAYSTACK_PUBLIC_KEY_TEST = os.Getenv("PAYSTACK_PUBLIC_KEY_TEST")
 
 func getMailPort() int {
-	port, ok := os.LookupEnv("MAIL_PORT")
-	if !ok {
-		log.Fatal("error: MAIL_PORT environment variable not set")
-	}
+	fmt.Println("hit here 1")
+	port := os.Getenv("MAIL_PORT")
+	fmt.Println("the port is: " + port)
+	// if !ok {
+	// 	log.Fatal("error: MAIL_PORT environment variable not set o")
+	// }
 	MailPortInt, err := strconv.Atoi(port)
 	if err != nil {
 		log.Printf("error: MAIL_PORT environment variable must be an integer")

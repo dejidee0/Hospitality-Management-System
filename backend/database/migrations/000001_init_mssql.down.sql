@@ -1,7 +1,9 @@
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS hotels;
-DROP TABLE IF EXISTS house_rules;
-DROP TABLE IF EXISTS rooms;
-DROP TABLE IF EXISTS hotel_bookings;
-DROP TABLE IF EXISTS reviews;
-DROP TABLE IF EXISTS blogs;
+DROP TABLE users;
+DROP TABLE hotels;
+DROP TABLE house_rules;
+DROP TABLE rooms;
+DROP TABLE hotel_bookings;
+DROP TABLE reviews;
+DROP TABLE blogs;
+DROP TABLE paystack_bookings;
+DROP TABLE events;

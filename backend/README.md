@@ -107,3 +107,6 @@ endpoint creates a user, expects [email: string, password: string]
                 }
             }
 
+12. GET /v1/events/search?state=lagos
+    returns events in the supplied state with the neccessary details for the search page
+    
