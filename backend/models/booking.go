@@ -35,7 +35,7 @@ type HotelBooking struct {
 	Email          string    `json:"-"`
 	SpecialRequest string    `json:"special-requests"`
 	PaymentMethod  string    `json:"payment-method"`
-	Room           int       `quantity:"quantity" binding:"required,min=1"`
+	Room           int       `json:"quantity" binding:"required,min=1"`
 	PromoCode      string    `json:"promo-code"`
 	Checkin        time.Time `json:"check-in" binding:"required"`
 	CheckOut       time.Time `json:"check-out" binding:"required"`

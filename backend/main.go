@@ -30,16 +30,18 @@ func main() {
 	r.GET("/v1/auth/reset-password", routes.ResetPassword)
 	r.POST("/v1/auth/change-password", routes.ChangePassword)
 
-	// this serves the data for the home page
+	// Enpoints conerning Hotels
 	r.GET("/v1/hotels/index", routes.HotelsIndex)
 	r.GET("/v1/hotels/search", routes.HotelsSearch)
 	r.GET("/v1/hotels/:hotel_id", routes.HotelDetail)
 	r.POST("/v1/hotels/booking", routes.HotelBooking)
 	r.GET("/v1/hotels/booking/verify", routes.HotelBookingVerify)
 
+	// Enpoints conerning Events
 	r.GET("/v1/events/index", routes.EventsIndex)
 	r.GET("/v1/events/search", routes.EventsSearch)
 	r.GET("/v1/events/:event_id", routes.EventDetail)
+	r.POST("/v1/events/booking", routes.EventBooking)
 
 	if err := r.Run(config.Server_address); err != nil {
 		log.Fatal(err)
