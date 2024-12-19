@@ -145,7 +145,7 @@ CREATE TABLE events(
     price DECIMAL(10,2) DEFAULT 0,
     about VARCHAR(MAX),
     images VARCHAR(MAX), -- comma sepaterated urlofimages
-    format VARCHAR(100), -- e.g conference, class, festival, party
+    format VARCHAR(100), -- e.g conference, class, festival, party, online
     created_at DATETIME DEFAULT GETDATE(),
     updated_at DATETIME,
     agent_id VARCHAR(36),

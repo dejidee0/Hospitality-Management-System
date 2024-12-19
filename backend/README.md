@@ -107,6 +107,14 @@ endpoint creates a user, expects [email: string, password: string]
                 }
             }
 
-12. GET /v1/events/search?state=lagos
+12. GET /v1/events/index
+        returns:
+        data: {
+            popular_events:  list of popular events,
+			online_events:   list of events in the online format,
+			music_events:   list of events in the music category,
+			business_events: list of events in the business category,
+		}
+
+13. GET /v1/events/search?state=lagos
     returns events in the supplied state with the neccessary details for the search page
-    

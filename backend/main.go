@@ -37,7 +37,9 @@ func main() {
 	r.POST("/v1/hotels/booking", routes.HotelBooking)
 	r.GET("/v1/hotels/booking/verify", routes.HotelBookingVerify)
 
+	r.GET("/v1/events/index", routes.EventsIndex)
 	r.GET("/v1/events/search", routes.EventsSearch)
+	r.GET("/v1/events/:event_id", routes.EventDetail)
 
 	if err := r.Run(config.Server_address); err != nil {
 		log.Fatal(err)

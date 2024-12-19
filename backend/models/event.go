@@ -36,7 +36,89 @@ type Event struct {
 	About    string    `json:"about,omitempty"`
 }
 
-func (h *Event) GetEventsByState(state string) []Event {
+// fetch events that are popular and are from the given state
+func (e *Event) GetPopularEventsIn(state string) ([]Event, error) {
+	query := `SELECT events.id, events.name, events.date, events.venue, events.price,
+	events.images, events.popular FROM events WHERE popular = 1 AND state = @state;`
+
+	rows, err := database.DB.Query(query, sql.Named("state", state))
+	if err != nil {
+		// log.Println(err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var events []Event
+	for rows.Next() {
+		var event Event
+		err = rows.Scan(
+			&event.Id, &event.Name, &event.Date, &event.Venue, &event.Price,
+			&event.Images, &event.Popular)
+		if err == nil {
+			events = append(events, event)
+		} else {
+			log.Println("error on scan: " + err.Error())
+		}
+	}
+
+	return events, nil
+}
+
+func (e *Event) GetEventsByFormat(format string) []Event {
+	query := `SELECT events.id, events.name, events.date, events.venue, events.price,
+	events.images FROM events WHERE format = @format;`
+
+	rows, err := database.DB.Query(query, sql.Named("format", format))
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	defer rows.Close()
+
+	var events []Event
+	for rows.Next() {
+		var event Event
+		err = rows.Scan(
+			&event.Id, &event.Name, &event.Date, &event.Venue, &event.Price,
+			&event.Images)
+		if err == nil {
+			events = append(events, event)
+		} else {
+			log.Println("error on scan: " + err.Error())
+		}
+	}
+
+	return events
+}
+
+func (e *Event) GetEventsByCategory(category string) []Event {
+	query := `SELECT events.id, events.name, events.date, events.venue, events.price,
+	events.images FROM events WHERE category = @cat;`
+
+	rows, err := database.DB.Query(query, sql.Named("cat", category))
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	defer rows.Close()
+
+	var events []Event
+	for rows.Next() {
+		var event Event
+		err = rows.Scan(
+			&event.Id, &event.Name, &event.Date, &event.Venue, &event.Price,
+			&event.Images)
+		if err == nil {
+			events = append(events, event)
+		} else {
+			log.Println("error on scan: " + err.Error())
+		}
+	}
+
+	return events
+}
+
+func (e *Event) GetEventsByState(state string) []Event {
 	// SELECT hotels.id, hotels.name, hotels.city,	hotels.rating, hotels.images, COALESCE(MIN(rooms.price_per_night), 0) AS min_price_per_night, COUNT(reviews.id) AS review_count FROM hotels LEFT JOIN reviews
 	// ON hotels.id = reviews.hotel_id INNER JOIN rooms ON hotels.id = rooms.hotel_id WHERE hotels.popular = 1 GROUP BY hotels.id, hotels.name, hotels.city, hotels.rating, hotels.images ORDER BY min_price_per_night;`
 
@@ -63,4 +145,30 @@ func (h *Event) GetEventsByState(state string) []Event {
 	}
 
 	return events
+}
+
+// this will populate data for the event pointed to by this method
+func (e *Event) GetEventByID(id string) error {
+
+	query := `SELECT events.id, events.name, events.date, events.venue, events.price, events.category, 
+	events.format, events.state, events.imagesMAX(hotels.address) AS address, hotels.images, MAX(description) AS description,
+	STRING_AGG(rooms.amenities, ', ') AS amenities, COUNT(reviews.id) AS review_count, AVG(ISNULL(reviews.rating, 0)) AS avg_rating,
+	AVG(ISNULL(reviews.cleanliness, 0)) AS cleanliness_score, AVG(ISNULL(reviews.amenities, 0)) AS amenities_score, 
+	AVG(ISNULL(reviews.location, 0)) AS location_score, AVG(ISNULL(reviews.services, 0)) AS services_score FROM hotels 
+	LEFT JOIN reviews ON hotels.id = reviews.hotel_id JOIN rooms ON hotels.id = rooms.hotel_id WHERE hotels.id = @id 
+	GROUP BY hotels.id, hotels.name, hotels.city, hotels.rating, hotels.images;`
+
+	row := database.DB.QueryRow(query, sql.Named("id", id))
+
+	err := row.Scan(&e.Id, &e.Name, &e.City, &e.Rating, &e.Address, &e.Images, &e.Description,
+		&e.Amenities, &e.ReviewCount, &e.AvgRating, &e.CleanlinessScore, &e.AmenitiesScore,
+		&e.LocationScore, &e.ServicesScore,
+	)
+	if err != nil {
+
+		log.Println(err)
+		return err
+	}
+
+	return nil
 }
