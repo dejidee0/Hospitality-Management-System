@@ -150,25 +150,16 @@ func (e *Event) GetEventsByState(state string) []Event {
 // this will populate data for the event pointed to by this method
 func (e *Event) GetEventByID(id string) error {
 
-	query := `SELECT events.id, events.name, events.date, events.venue, events.price, events.category, 
-	events.format, events.state, events.imagesMAX(hotels.address) AS address, hotels.images, MAX(description) AS description,
-	STRING_AGG(rooms.amenities, ', ') AS amenities, COUNT(reviews.id) AS review_count, AVG(ISNULL(reviews.rating, 0)) AS avg_rating,
-	AVG(ISNULL(reviews.cleanliness, 0)) AS cleanliness_score, AVG(ISNULL(reviews.amenities, 0)) AS amenities_score, 
-	AVG(ISNULL(reviews.location, 0)) AS location_score, AVG(ISNULL(reviews.services, 0)) AS services_score FROM hotels 
-	LEFT JOIN reviews ON hotels.id = reviews.hotel_id JOIN rooms ON hotels.id = rooms.hotel_id WHERE hotels.id = @id 
-	GROUP BY hotels.id, hotels.name, hotels.city, hotels.rating, hotels.images;`
+	query := `SELECT events.id, events.name, events.date, events.summary, events.venue, events.about, 
+	events.price, events.images, events.category FROM events WHERE events.id = @id;`
 
 	row := database.DB.QueryRow(query, sql.Named("id", id))
 
-	err := row.Scan(&e.Id, &e.Name, &e.City, &e.Rating, &e.Address, &e.Images, &e.Description,
-		&e.Amenities, &e.ReviewCount, &e.AvgRating, &e.CleanlinessScore, &e.AmenitiesScore,
-		&e.LocationScore, &e.ServicesScore,
-	)
+	err := row.Scan(&e.Id, &e.Name, &e.Date, &e.Summary, &e.Venue, &e.About, &e.Price,
+		&e.Images, &e.Category)
 	if err != nil {
-
 		log.Println(err)
 		return err
 	}
-
 	return nil
 }

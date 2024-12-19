@@ -73,10 +73,15 @@ func EventDetail(ctx *gin.Context) {
 		return
 	}
 
-	similarEvents := event.GetSimilar()
-
+	// get events in the same category
+	similarEvents := event.GetEventsByCategory(event.Category)
+	limit := 5
+	if len(similarEvents) < limit {
+		limit = len(similarEvents)
+	}
+	similar := similarEvents[:limit]
 	ctx.JSON(http.StatusOK, gin.H{
 		"event":   event,
-		"similar": similarEvents,
+		"similar": similar,
 	})
 }
