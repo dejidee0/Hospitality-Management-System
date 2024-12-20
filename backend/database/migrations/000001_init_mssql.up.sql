@@ -92,6 +92,7 @@ CREATE TABLE hotel_bookings (
     FOREIGN KEY (room_id) REFERENCES rooms(id)
 );
 
+
 -- reviews schema
 CREATE TABLE reviews (
     id VARCHAR(36) PRIMARY KEY,

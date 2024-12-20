@@ -6,23 +6,29 @@ import (
 	"hms/database"
 	"hms/utils"
 	"log"
+	"strings"
+	"time"
 
 	"github.com/google/uuid"
 )
 
 type EventBooking struct {
-	EventBookingId string  `json:"event-booking-id"`
-	EventID        string  `json:"event-id" binding:"required"`
-	FirstName      string  `json:"first-name" binding:"required"`
-	LastName       string  `json:"last-name" binding:"required"`
-	Email          string  `json:"email" binding:"required"`
-	PaymentMethod  string  `json:"payment-method"`
-	Quantity       int     `json:"quantity" binding:"required,min=1"`
-	PromoCode      string  `json:"promo-code"`
-	TotalAmount    float64 `json:"total-amount"`
-	BookingNumber  int64   `json:"booking-number"`
-	AccessCode     string  `json:"access-code"`
-	Reference      string  `json:"tx-reference"`
+	EventBookingId string    `json:"event-booking-id,omitempty"`
+	EventID        string    `json:"event-id,omitempty" binding:"required"`
+	FirstName      string    `json:"first-name,omitempty" binding:"required"`
+	LastName       string    `json:"last-name,omitempty" binding:"required"`
+	Email          string    `json:"email,omitempty" binding:"required"`
+	PaymentMethod  string    `json:"payment-method,omitempty"`
+	Quantity       int       `json:"quantity,omitempty" binding:"required,min=1"`
+	PromoCode      string    `json:"promo-code,omitempty"`
+	TotalAmount    float64   `json:"total-amount,omitempty"`
+	BookingNumber  int64     `json:"booking-number,omitempty"`
+	AccessCode     string    `json:"access-code,omitempty"`
+	Reference      string    `json:"tx-reference,omitempty"`
+	EventName      string    `json:"event-name,omitempty"`
+	EventDate      time.Time `json:"event-date,omitempty"`
+	Venue          string    `json:"venue,omitempty"`
+	Image          string    `json:"image,omitempty"`
 }
 
 func (evb *EventBooking) ValidateBookingAndCalculateTotalAmount() error {
@@ -95,5 +101,34 @@ func (evb *EventBooking) Save(access_code, reference string) error {
 	evb.EventBookingId = event_booking_id
 	evb.AccessCode = access_code
 	evb.Reference = reference
+	return nil
+}
+
+// firstname VARCHAR(100) NOT NULL,
+// booking_number INT IDENTITY(1,1),
+// email VARCHAR(100) NOT NULL,
+// quantity
+// total_price DECIMAL(10,2) NOT NULL,
+// event_id VARCHAR(36) NOT NULL, to get name of event, date, venue
+// payment_status VARCHAR(20) DEFAULT 'pending' CHECK(payment_status IN ('pending', 'processing', 'paid', 'refunded')),
+//
+//
+
+func (evb *EventBooking) GetBookingDetails(reference string) error {
+	query := `SELECT event_bookings.firstname, event_bookings.booking_number, event_bookings.email, 
+	event_bookings.quantity, event_bookings.total_price, events.name, 
+	events.date, events.venue, events.images FROM event_bookings JOIN events 
+	ON event_bookings.event_id = events.id WHERE event_bookings.paystack_reference = @reference;`
+
+	// var data BookingType
+	row := database.DB.QueryRow(query, sql.Named("reference", reference))
+	err := row.Scan(&evb.FirstName, &evb.BookingNumber, &evb.Email, &evb.Quantity,
+		&evb.TotalAmount, &evb.EventName, &evb.EventDate, &evb.Venue, &evb.Image,
+	)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	evb.Image = strings.Split(evb.Image, ",")[0]
 	return nil
 }

@@ -2,9 +2,11 @@ package mail
 
 import (
 	"fmt"
-	"hms/config"
-	"io/ioutil"
+	"io"
+	"log"
 	"net/http"
+	"os"
+	"strconv"
 	"strings"
 
 	"gopkg.in/gomail.v2"
@@ -18,6 +20,16 @@ import (
 // CNAME mt-link.imole.tech -> t.mailtrap.live
 
 func SendToken(token, email string) error {
+	var MailServer = os.Getenv("MAIL_SERVER")
+	var MailUsername = os.Getenv("MAIL_USERNAME")
+	var MailPassword = os.Getenv("MAIL_PASSWORD")
+	var MailPort = os.Getenv("MAIL_PORT")
+	MailPortInt, err := strconv.Atoi(MailPort)
+	if err != nil {
+		log.Printf("error: MAIL_PORT environment variable must be an integer")
+		log.Fatal(err)
+	}
+
 	mailer := gomail.NewMessage()
 	mailer.SetHeader("From", "noreply@hms.com")
 	mailer.SetHeader("To", email)
@@ -27,9 +39,9 @@ func SendToken(token, email string) error {
 
 	mailer.SetBody("text/plain", msg)
 
-	dialer := gomail.NewDialer(config.MailServer, config.MailPort, config.MailUsername, config.MailPassword)
+	dialer := gomail.NewDialer(MailServer, MailPortInt, MailUsername, MailPassword)
 
-	err := dialer.DialAndSend(mailer)
+	err = dialer.DialAndSend(mailer)
 	if err != nil {
 		// fmt.Println(err)
 		return err
@@ -43,15 +55,6 @@ func MailTrapGo() {
 
 	url := "https://send.api.mailtrap.io/api/send"
 	method := "POST"
-
-	// str := `
-	// {
-	// 	"from":	{"email":"hello@demomailtrap.com","name":"Mailtrap Test"},
-	// 	"to": 	[{"email":"dremkay71@gmail.com"}],
-	// 	"subject":	"You are awesome!",
-	// 	"text":	"Congrats for sending test email with Mailtrap!",
-	// 	"category": "Integration Test"
-	// }`
 
 	payload := strings.NewReader(`{\"from\":{\"email\":\"hello@demomailtrap.com\",\"name\":\"Mailtrap Test\"},\"to\":[{\"email\":\"dremkay71@gmail.com\"}],\"subject\":\"You are awesome!\",\"text\":\"Congrats for sending test email with Mailtrap!\",\"category\":\"Integration Test\"}`)
 
@@ -72,7 +75,7 @@ func MailTrapGo() {
 	}
 	defer res.Body.Close()
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
 		return

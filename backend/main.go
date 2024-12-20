@@ -1,18 +1,29 @@
 package main
 
 import (
-	"hms/config"
+	"fmt"
 	"hms/database"
 	"hms/middleware"
 	"hms/routes"
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
 
+// loading environment variables
+// func init() {
+// 	err := godotenv.Load()
+// 	if err != nil {
+// 		log.Fatalf("error loading env: %v\n", err)
+// 	}
+// }
+
 func main() {
 	// close database before main ends
 	defer database.DB.Close()
+
+	server_address := fmt.Sprintf("%s:%s", os.Getenv("SERVER_HOST"), os.Getenv("SERVER_PORT"))
 
 	r := gin.Default()
 	r.Use(middleware.CORSMiddleware())
@@ -42,8 +53,9 @@ func main() {
 	r.GET("/v1/events/search", routes.EventsSearch)
 	r.GET("/v1/events/:event_id", routes.EventDetail)
 	r.POST("/v1/events/booking", routes.EventBooking)
+	r.GET("/v1/events/booking/verify", routes.EventBookingVerify)
 
-	if err := r.Run(config.Server_address); err != nil {
+	if err := r.Run(server_address); err != nil {
 		log.Fatal(err)
 	}
 }

@@ -5,12 +5,12 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"hms/config"
 	"hms/models"
 	"hms/utils"
 	"io"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -102,6 +102,8 @@ func HotelDetail(ctx *gin.Context) {
 }
 
 func HotelBooking(ctx *gin.Context) {
+	var PAYSTACK_SECRET_KEY_TEST = os.Getenv("PAYSTACK_SECRET_KEY_TEST")
+
 	// get the booking detail (the data)
 	var boookingData models.HotelBooking
 	err := ctx.Bind(&boookingData)
@@ -180,7 +182,7 @@ func HotelBooking(ctx *gin.Context) {
 	// Add headers, including the Authorization header
 	req.Header.Set("Content-Type", "application/json")
 	// req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-	req.Header.Set("Authorization", "Bearer "+config.PAYSTACK_SECRET_KEY_TEST)
+	req.Header.Set("Authorization", "Bearer "+PAYSTACK_SECRET_KEY_TEST)
 
 	// Use http.Client to send the request
 	client := &http.Client{}
@@ -241,6 +243,8 @@ func HotelBooking(ctx *gin.Context) {
 }
 
 func HotelBookingVerify(ctx *gin.Context) {
+	var PAYSTACK_SECRET_KEY_TEST = os.Getenv("PAYSTACK_SECRET_KEY_TEST")
+
 	reference := ctx.Query("reference")
 	booking_id := ctx.Query("booking_id")
 
@@ -261,7 +265,7 @@ func HotelBookingVerify(ctx *gin.Context) {
 	// Add headers, including the Authorization header
 	// req.Header.Set("Content-Type", "application/json")
 	// req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
-	req.Header.Set("Authorization", "Bearer "+config.PAYSTACK_SECRET_KEY_TEST)
+	req.Header.Set("Authorization", "Bearer "+PAYSTACK_SECRET_KEY_TEST)
 
 	// Use http.Client to send the request
 	client := &http.Client{}

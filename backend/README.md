@@ -146,4 +146,25 @@ endpoint creates a user, expects [email: string, password: string]
         }
 
 
+16. GET /v1/events/booking/verify?reference={REFERENCE}
+        Response body:
+        "status":  "success",
+		"message": "payment is successful!",
+		"data": {
+                    "status": "success"
+                    "message": [string],
+                    "data": {
+                        "first-name": [string],
+                        "booking-number": [int],
+                        "email": [string],                    
+                        "quantity": [int],
+                        "total-amount": [float],
+                        "image": [string],
+                        "event-name": [string],
+                        "event-date":[string],
+                        "venue": [float],
+                        "image": [string]
+                    }
+            },
+            
 <!-- for verify booking for events, i may restructure verify booking hotel to accomodate all verify -->

@@ -8,9 +8,12 @@ The server is build in a single binary file to run on linux
 All you need to do is 
 - navigate to the bin directory
 - create a `.env` file and fill it up with what's needed as higlighted in the `env.example` file
-- then run ```./hms```
+- then run ```dotenv -f .env run ./hms```
+
+dotenv here is a program to load env variable from file. if you dont have it, install it using
+`sudo apt install dotenv`
 
 you may be asked to make hms an executable, do that with the ccommand below
 ```chmod +x hms```
 
-*** make sure youre in the bin directory when doing all these.
+*** make sure you're in the bin directory when doing all these.
