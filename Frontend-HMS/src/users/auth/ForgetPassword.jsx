@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthBase from "./AuthBase";
-import Loading from "../components/ButtonLoader";
+import Loading from "./components/ButtonLoader";
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
