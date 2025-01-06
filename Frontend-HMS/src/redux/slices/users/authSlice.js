@@ -2,7 +2,23 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Set API base URL
-const API_URL = 'https://api.example.com/auth'; // Replace with your API endpoint
+const API_URL = `${process.env.API_URL}/v1/auth`; // Replace with your API endpoint
+
+// Async Thunks
+export const signup = createAsyncThunk(
+    'auth/signup',
+    async (userDetails, { rejectWithValue }) => {
+      try {
+        const response = await axios.post(`${API_URL}/signup`, userDetails);
+        const { message } = response.data;
+        return { message };
+      } catch (error) {
+        return rejectWithValue(
+          error.response?.data?.message || 'Signup failed. Please try again.'
+        );
+      }
+    }
+  );
 
 // Async Thunks
 export const login = createAsyncThunk(
@@ -10,8 +26,8 @@ export const login = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${API_URL}/login`, credentials);
-      const { token, user } = response.data;
-      return { token, user };
+      const { token } = response.data;
+      return { token };
     } catch (error) {
       return rejectWithValue(error.response.data || 'Failed to log in');
     }
@@ -35,7 +51,6 @@ export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: null,
     token: null,
     isAuthenticated: false,
     isLoading: false,
@@ -43,13 +58,26 @@ const authSlice = createSlice({
   },
   reducers: {
     logoutSuccess(state) {
-      state.user = null;
       state.token = null;
       state.isAuthenticated = false;
     },
   },
   extraReducers: (builder) => {
     builder
+    .addCase(signup.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(signup.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.token = action.payload.token;
+        localStorage.setItem('auth', JSON.stringify(action.payload));
+      })
+      .addCase(signup.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
       .addCase(login.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -57,7 +85,6 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuthenticated = true;
-        state.user = action.payload.user;
         state.token = action.payload.token;
         localStorage.setItem('auth', JSON.stringify(action.payload));
       })
@@ -67,8 +94,7 @@ const authSlice = createSlice({
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.isAuthenticated = true;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.token = action.payload;
       })
       .addCase(checkAuth.rejected, (state) => {
         state.isAuthenticated = false;
