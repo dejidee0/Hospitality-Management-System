@@ -2,8 +2,9 @@ package database
 
 import (
 	"database/sql"
-	"hms/config"
+	"fmt"
 	"log"
+	"os"
 
 	// _ "github.com/mattn/go-sqlite3"
 	_ "github.com/denisenkom/go-mssqldb"
@@ -11,7 +12,16 @@ import (
 
 func GetDB() *sql.DB {
 	// db, err := sql.Open("sqlite3", "data/hms.db")
-	db, err := sql.Open(config.DBDriver, config.DBUrl)
+	dbHost := os.Getenv("DATABASE_HOST")
+	dbPort := os.Getenv("DATABASE_PORT")
+	dbName := os.Getenv("DATABASE_NAME")
+	dbUser := os.Getenv("DATABASE_USERNAME")
+	dbPassword := os.Getenv("DATABASE_PASSWORD")
+	DBDriver := os.Getenv("DB_DRIVER")
+
+	DBUrl := fmt.Sprintf("server=%s;port=%s;database=%s;user id=%s;password=%s", dbHost, dbPort, dbName, dbUser, dbPassword)
+
+	db, err := sql.Open(DBDriver, DBUrl)
 
 	if err != nil {
 		log.Fatalf("failed to connect to the database: %v", err)

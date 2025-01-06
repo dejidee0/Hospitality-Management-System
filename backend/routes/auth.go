@@ -1,11 +1,11 @@
 package routes
 
 import (
-	"hms/config"
 	"hms/models"
 	"hms/utils"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -48,6 +48,8 @@ func Signup(ctx *gin.Context) {
 }
 
 func Login(ctx *gin.Context) {
+	JWTKEY := []byte(os.Getenv("JWT_SECRET_KEY"))
+
 	// getting post data
 	var data utils.LoginData
 	err := ctx.Bind(&data)
@@ -81,7 +83,8 @@ func Login(ctx *gin.Context) {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(config.JWTKey)
+
+	tokenString, err := token.SignedString(JWTKEY)
 	if err != nil {
 		log.Println(err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{

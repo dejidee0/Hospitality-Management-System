@@ -2,12 +2,12 @@ package routes
 
 import (
 	"fmt"
-	"hms/config"
 	"hms/mail"
 	"hms/models"
 	"hms/utils"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +15,9 @@ import (
 )
 
 func ResetPassword(ctx *gin.Context) {
+
+	JWTKEY := []byte(os.Getenv("JWT_SECRET_KEY"))
+
 	email := ctx.Query("email")
 	// validate email
 	ok := utils.ValidateEmail(email)
@@ -54,7 +57,7 @@ func ResetPassword(ctx *gin.Context) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(config.JWTKey)
+	tokenString, err := token.SignedString(JWTKEY)
 	if err != nil {
 		log.Println(err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{
@@ -88,6 +91,7 @@ func ResetPassword(ctx *gin.Context) {
 }
 
 func ChangePassword(ctx *gin.Context) {
+	JWTKEY := []byte(os.Getenv("JWT_SECRET_KEY"))
 	var data utils.ChangePasswordData
 	err := ctx.Bind(&data)
 	if err != nil {
@@ -98,7 +102,7 @@ func ChangePassword(ctx *gin.Context) {
 	}
 	// validate token, check if its still valid
 	token, err := jwt.Parse(data.Token, func(t *jwt.Token) (interface{}, error) {
-		return config.JWTKey, nil
+		return JWTKEY, nil
 	})
 	if err != nil {
 		log.Println("parsing and validating error: " + err.Error())

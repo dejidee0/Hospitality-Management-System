@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"hms/config"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
@@ -11,6 +11,8 @@ import (
 
 func Authorize() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+		JWTKEY := []byte(os.Getenv("JWT_SECRET_KEY"))
+
 		token_string := ctx.GetHeader("Authorization")
 		if token_string == "" {
 			ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -20,7 +22,7 @@ func Authorize() gin.HandlerFunc {
 			return
 		}
 		token, err := jwt.Parse(token_string, func(t *jwt.Token) (interface{}, error) {
-			return config.JWTKey, nil
+			return JWTKEY, nil
 		})
 		if err != nil {
 			log.Println("Hit" + err.Error())

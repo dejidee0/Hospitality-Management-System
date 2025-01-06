@@ -92,6 +92,7 @@ CREATE TABLE hotel_bookings (
     FOREIGN KEY (room_id) REFERENCES rooms(id)
 );
 
+
 -- reviews schema
 CREATE TABLE reviews (
     id VARCHAR(36) PRIMARY KEY,
@@ -101,14 +102,15 @@ CREATE TABLE reviews (
     review_body VARCHAR(1024), -- the review itself
     created_at DATETIME DEFAULT GETDATE(),
     city VARCHAR(50) NOT NULL,
-    cleanliness INT, -- rate 1-10
-    location INT, -- rate 1-10
-    amenities INT, -- rate 1-10
-    services INT, -- rate 1-10
-    rating AS ((cleanliness + location + amenities + services) / 4), -- computed average rating
+    cleanliness INT CHECK (cleanliness BETWEEN 1 AND 10), -- rate 1-10
+    location INT CHECK (location BETWEEN 1 AND 10), -- rate 1-10
+    amenities INT CHECK (amenities BETWEEN 1 AND 10), -- rate 1-10
+    services INT CHECK (services BETWEEN 1 AND 10), -- rate 1-10
+    rating AS ((ISNULL(cleanliness, 0) + ISNULL(location, 0) + ISNULL(amenities, 0) + ISNULL(services, 0)) / 4) PERSISTED, -- computed average rating
     one_word VARCHAR(25), -- e.g., outstanding, poor, etc.
     FOREIGN KEY (hotel_id) REFERENCES hotels(id)
 );
+
 
 -- blogs schema
 CREATE TABLE blogs (
@@ -120,3 +122,36 @@ CREATE TABLE blogs (
     created_at DATETIME DEFAULT GETDATE(),
     updated_at DATETIME
 );
+
+-- paystack bookings
+CREATE TABLE paystack_bookings(
+    id VARCHAR(36) PRIMARY KEY,
+    booking_number INT,
+    booking_id VARCHAR(36),
+    amount DECIMAL(10,2),
+    type VARCHAR(10) CHECK(type IN ('hotel', 'flight','event','car')),
+    reference VARCHAR(256),
+    access_code VARCHAR(256),
+    payment_status VARCHAR(100)
+);
+
+-- Events schema
+CREATE TABLE events(
+    id VARCHAR(36) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    summary VARCHAR(MAX),
+    category VARCHAR(100),
+    date DATETIME,
+    venue VARCHAR(255),
+    price DECIMAL(10,2) DEFAULT 0,
+    about VARCHAR(MAX),
+    images VARCHAR(MAX), -- comma sepaterated urlofimages
+    format VARCHAR(100), -- e.g conference, class, festival, party, online
+    created_at DATETIME DEFAULT GETDATE(),
+    updated_at DATETIME,
+    agent_id VARCHAR(36),
+    FOREIGN KEY (agent_id) REFERENCES users(id),
+    popular BIT DEFAULT 0,
+    state VARCHAR(50)
+);
+

@@ -1,18 +1,29 @@
 package main
 
 import (
-	"hms/config"
+	"fmt"
 	"hms/database"
 	"hms/middleware"
 	"hms/routes"
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
 
+// loading environment variables
+// func init() {
+// 	err := godotenv.Load()
+// 	if err != nil {
+// 		log.Fatalf("error loading env: %v\n", err)
+// 	}
+// }
+
 func main() {
 	// close database before main ends
 	defer database.DB.Close()
+
+	server_address := fmt.Sprintf("%s:%s", os.Getenv("SERVER_HOST"), os.Getenv("SERVER_PORT"))
 
 	r := gin.Default()
 	r.Use(middleware.CORSMiddleware())
@@ -30,14 +41,21 @@ func main() {
 	r.GET("/v1/auth/reset-password", routes.ResetPassword)
 	r.POST("/v1/auth/change-password", routes.ChangePassword)
 
-	// this serves the data for the home page
+	// Enpoints conerning Hotels
 	r.GET("/v1/hotels/index", routes.HotelsIndex)
 	r.GET("/v1/hotels/search", routes.HotelsSearch)
 	r.GET("/v1/hotels/:hotel_id", routes.HotelDetail)
 	r.POST("/v1/hotels/booking", routes.HotelBooking)
 	r.GET("/v1/hotels/booking/verify", routes.HotelBookingVerify)
 
-	if err := r.Run(config.Server_address); err != nil {
+	// Enpoints conerning Events
+	r.GET("/v1/events/index", routes.EventsIndex)
+	r.GET("/v1/events/search", routes.EventsSearch)
+	r.GET("/v1/events/:event_id", routes.EventDetail)
+	r.POST("/v1/events/booking", routes.EventBooking)
+	r.GET("/v1/events/booking/verify", routes.EventBookingVerify)
+
+	if err := r.Run(server_address); err != nil {
 		log.Fatal(err)
 	}
 }

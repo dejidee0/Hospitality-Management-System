@@ -107,3 +107,64 @@ endpoint creates a user, expects [email: string, password: string]
                 }
             }
 
+12. GET /v1/events/index
+        returns:
+        data: {
+            popular_events:  list of popular events,
+			online_events:   list of events in the online format,
+			music_events:   list of events in the music category,
+			business_events: list of events in the business category,
+		}
+
+13. GET /v1/events/search?state=lagos
+    returns events in the supplied state with the neccessary details for the search page
+
+14. GET /v1/events/<event_id>
+    returns details about the event with the provided id
+
+
+15. POST /v1/events/booking
+    Payload:
+        event-id:           string   
+	    first-name:         string      
+        last-name:          string      
+        email:              string      
+        payment-method:     string
+        quantity:           int         --- number of tickets
+        promo-code:         string      --- empty string '' [optional]
+        total-amount        int   
+    
+    Response:
+        {
+            authorization-url: [string],
+            event-booking-id: [string],
+            booking-number: [int],
+            email: [string],
+            paystack-access-code: [string],
+            total-amount: [float],
+            tx-reference: [string]
+        }
+
+
+16. GET /v1/events/booking/verify?reference={REFERENCE}
+        Response body:
+        "status":  "success",
+		"message": "payment is successful!",
+		"data": {
+                    "status": "success"
+                    "message": [string],
+                    "data": {
+                        "first-name": [string],
+                        "booking-number": [int],
+                        "email": [string],                    
+                        "quantity": [int],
+                        "total-amount": [float],
+                        "image": [string],
+                        "event-name": [string],
+                        "event-date":[string],
+                        "venue": [float],
+                        "image": [string]
+                    }
+            },
+            
+<!-- for verify booking for events, i may restructure verify booking hotel to accomodate all verify -->

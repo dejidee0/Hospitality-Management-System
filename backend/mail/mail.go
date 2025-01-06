@@ -2,12 +2,34 @@ package mail
 
 import (
 	"fmt"
-	"hms/config"
+	"io"
+	"log"
+	"net/http"
+	"os"
+	"strconv"
+	"strings"
 
 	"gopkg.in/gomail.v2"
 )
 
+// CNAME mt80.imole.tech -> smtp.mailtrap.live
+// TXT imole.tech -> v=spf1 include:_spf.smtp.mailtrap.live ~all
+// CNAME rwmt1._domainkey.imole.tech -> rwmt1.dkim.smtp.mailtrap.live
+// CNAME rwmt2._domainkey.imole.tech -> rwmt2.dkim.smtp.mailtrap.live
+// TXT _dmarc.imole.tech -> v=DMARC1; p=none; rua=mailto:dmarc@smtp.mailtrap.live; ruf=mailto:dmarc@smtp.mailtrap.live; rf=afrf; pct=100
+// CNAME mt-link.imole.tech -> t.mailtrap.live
+
 func SendToken(token, email string) error {
+	var MailServer = os.Getenv("MAIL_SERVER")
+	var MailUsername = os.Getenv("MAIL_USERNAME")
+	var MailPassword = os.Getenv("MAIL_PASSWORD")
+	var MailPort = os.Getenv("MAIL_PORT")
+	MailPortInt, err := strconv.Atoi(MailPort)
+	if err != nil {
+		log.Printf("error: MAIL_PORT environment variable must be an integer")
+		log.Fatal(err)
+	}
+
 	mailer := gomail.NewMessage()
 	mailer.SetHeader("From", "noreply@hms.com")
 	mailer.SetHeader("To", email)
@@ -17,9 +39,9 @@ func SendToken(token, email string) error {
 
 	mailer.SetBody("text/plain", msg)
 
-	dialer := gomail.NewDialer(config.MailServer, config.MailPort, config.MailUsername, config.MailPassword)
+	dialer := gomail.NewDialer(MailServer, MailPortInt, MailUsername, MailPassword)
 
-	err := dialer.DialAndSend(mailer)
+	err = dialer.DialAndSend(mailer)
 	if err != nil {
 		// fmt.Println(err)
 		return err
@@ -27,4 +49,36 @@ func SendToken(token, email string) error {
 
 	fmt.Println("Email sent successfully! to " + email)
 	return nil
+}
+
+func MailTrapGo() {
+
+	url := "https://send.api.mailtrap.io/api/send"
+	method := "POST"
+
+	payload := strings.NewReader(`{\"from\":{\"email\":\"hello@demomailtrap.com\",\"name\":\"Mailtrap Test\"},\"to\":[{\"email\":\"dremkay71@gmail.com\"}],\"subject\":\"You are awesome!\",\"text\":\"Congrats for sending test email with Mailtrap!\",\"category\":\"Integration Test\"}`)
+
+	client := &http.Client{}
+	req, err := http.NewRequest(method, url, payload)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	req.Header.Add("Authorization", "Bearer 81c69591c43eceac0b49ffc51a7dc072")
+	req.Header.Add("Content-Type", "application/json")
+
+	res, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer res.Body.Close()
+
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(body))
 }
