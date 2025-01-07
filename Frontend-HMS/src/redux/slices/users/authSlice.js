@@ -29,7 +29,9 @@ export const login = createAsyncThunk(
       const { token } = response.data;
       return { token };
     } catch (error) {
-      return rejectWithValue(error.response.data || 'Failed to log in');
+        return rejectWithValue(
+            error.response?.data?.message || 'Login failed. Password or Email is incorrect'
+        );
     }
   }
 );
@@ -40,11 +42,12 @@ export const logout = createAsyncThunk('auth/logout', async (_, { dispatch }) =>
 });
 
 export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
-  const auth = JSON.parse(localStorage.getItem('auth'));
-  if (auth && auth.token) {
-    return auth; // Returns the token and user
+  const token = JSON.parse(localStorage.getItem('auth'));
+  if (token) {
+    return token; // Returns the token and user
   }
-  throw new Error('Not authenticated');
+  else 
+    return null
 });
 
 // Slice

@@ -1,8 +1,8 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import SearchBar from "../components/Searchbar";
-import Filters from "../components/filters";
-import SearchResult from "../components/SearchResult";
+import Navbar from "../../components/Navbar";
+import SearchBar from "../../users/hotel/component/Searchbar";
+import Filters from "../../users/hotel/component/filters";
+import SearchResult from "../../users/hotel/component/SearchResult";
 
 const allResults = [
   {

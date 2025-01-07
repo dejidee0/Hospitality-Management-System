@@ -67,17 +67,22 @@ const Signin = () => {
     return Object.values(newErrors).every((error) => error === "");
   };
 
-  // Handle form submission
-   if (validate()) {
-        dispatch(login(formData))
-          .unwrap()
-          .then(() => {
-            navigate("/home");
-          })
-          .catch((err) => {
-            console.error("Signup error:", err);
-          });
-      }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Handle form submission
+    if (validate()) {
+          dispatch(login(formData))
+            .unwrap()
+            .then(() => {
+              navigate("/home");
+            })
+            .catch((err) => {
+              console.error("Signup error:", err);
+            });
+        }
+    };
+
   return (
     <>
       <AuthBase>
@@ -195,7 +200,7 @@ const Signin = () => {
                   </div>
                 )}
                 {error && (
-                  <div className="text-[#EF1212] text-xs text-center">{error}</div>
+                  <div className="text-[#EF1212] pt-2 text-xs text-center">{error}</div>
                 )}
               </div>
 

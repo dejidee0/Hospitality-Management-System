@@ -125,18 +125,25 @@ const Signup = () => {
           </div>
 
           <div className="flex flex-col gap-5">
-            <div className="input-group">
-              <input
-                className="input w-[548px] h-12 border rounded pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
-                type="text"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                onFocus={() => handleFocus("email")}
-                placeholder="Email"
-                required
-              />
+              <div className="input-group">
+                <input
+                  className="input  w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
+                  type="text"
+                  id="email"
+                  required
+                  name="email"
+                  autoComplete="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus("email")} // Clear the email error on focus
+                  placeholder=""
+                />
+
+                <label className="placeholder" htmlFor="email">
+                  {" "}
+                  Email{" "}
+                </label>
+
               {errors.email && (
                 <div className="flex items-center gap-1 h-5 mt-[5px]">
                   <CgDanger className="w-[16.7px] h-[16.7px] bg-[#EF1212] text-white rounded-full" />
@@ -146,20 +153,31 @@ const Signup = () => {
             </div>
 
             <div className="input-group">
-              <input
-                className="input w-[548px] h-12 border rounded pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                onFocus={() => handleFocus("password")}
-                placeholder="Password"
-                required
-              />
-              <span onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <LuEyeOff /> : <LuEye />}
-              </span>
+                <input
+                  className="input w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
+                  type={showPassword ? "text" : "password"}
+                  placeholder=""
+                  required
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus("password")} // Clear the password error on focus
+                />
+
+                <label className="placeholder" htmlFor="password">
+                  {" "}
+                  Password{" "}
+                </label>
+
+                <span
+                  className="password__toggle hidden absolute -translate-y-2/4 cursor-pointer text-[#666] right-5 top-[25px]"
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  {showPassword ? <LuEye /> : <LuEyeOff />}
+                </span>
+                
               {errors.password && (
                 <div className="flex items-center gap-1 h-5 mt-[5px]">
                   <CgDanger className="w-[16.7px] h-[16.7px] bg-[#EF1212] text-white rounded-full" />
@@ -167,19 +185,32 @@ const Signup = () => {
                 </div>
               )}
             </div>
+              <div className="input-group">
+                <input
+                  className="input w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
+                  type={showPassword ? "text" : "password"}
+                  placeholder=""
+                  required
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  onFocus={() => handleFocus("confirmPassword")} // Clear the password error on focus
+                />
 
-            <div className="input-group">
-              <input
-                className="input w-[548px] h-12 border rounded pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                onFocus={() => handleFocus("confirmPassword")}
-                placeholder="Confirm Password"
-                required
-              />
+                <label className="placeholder" htmlFor="confirmPassword">
+                  {" "}
+                  Confirm Password{" "}
+                </label>
+
+                <span
+                  className="password__toggle hidden absolute -translate-y-2/4 cursor-pointer text-[#666] right-5 top-[25px]"
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  {showPassword ? <LuEye /> : <LuEyeOff />}
+                </span>
+
               {errors.confirmPassword && (
                 <div className="flex items-center gap-1 h-5 mt-[5px]">
                   <CgDanger className="w-[16.7px] h-[16.7px] bg-[#EF1212] text-white rounded-full" />
