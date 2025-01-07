@@ -112,7 +112,7 @@ const SearchBar = () => {
   const totalRooms = rooms.length;
 
   return (
-    <div className="flex gap-4 items-center p-4 bg-white shadow-lg rounded-lg">
+    <div className="flex gap-4 items-center p-4 bg-white rounded-lg">
       {/* Where To */}
       <div className="relative w-1/4">
         <label className="block text-xs text-gray-500 mb-1">Where To</label>
