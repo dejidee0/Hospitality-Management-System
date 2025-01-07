@@ -2,13 +2,15 @@ import { Routes, Route } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from "react";
 import "./App.css";
-import Signup from "./Authetication/Signup";
-import Signin from "./Authetication/Signin";
-import ForgetPassword from "./Authetication/ForgetPassword";
-import ResetPassword from "./Authetication/ResetPassword";
+import Signup from "./users/auth/Signup";
+import Signin from "./users/auth/Signin";
+import ForgetPassword from "./users/auth/ForgetPassword";
+import ResetPassword from "./users/auth/ResetPassword";
 import LandingPage from "./components/LandingPage";
-import Search from "./pages/Search";
+import Search from "./users/hotel/Home";
 import Home from "./users/hotel/Home";
+import { checkAuth } from "./redux/slices/users/authSlice";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -23,7 +25,7 @@ function App() {
       <Routes>
         <Route 
           path="/signup" 
-          element={!isAuthenticated ? <Signup /> : <Navigate to="/Home" />}
+          element={!isAuthenticated ? <Signup /> : <Navigate to="/LandingPage" />}
         />
         {/* <Route
           path="/dashboard"

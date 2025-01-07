@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Set API base URL
-const API_URL = `${process.env.API_URL}/v1/auth`; // Replace with your API endpoint
+const API_URL = `${import.meta.env.VITE_API_URL}/v1/auth`; // Replace with your API endpoint
 
 // Async Thunks
 export const signup = createAsyncThunk(
@@ -86,7 +86,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isAuthenticated = true;
         state.token = action.payload.token;
-        localStorage.setItem('auth', JSON.stringify(action.payload));
+        localStorage.setItem('auth', JSON.stringify(action.payload.token));
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;

@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/slices/users/authSlice"; 
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AuthBase from "./AuthBase";
 import Loading from "./components/ButtonLoader";
@@ -8,8 +10,10 @@ import googleIcon from "../../assets/google_icon.svg";
 import facebookIcon from "../../assets/facebook_icon.svg";
 
 const Signin = () => {
-  const [showPassword, setShowPassword] = useState(false); //for password toggle
-  const [loading, setLoading] = useState(false); //for loading state
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+    const { isLoading, error } = useSelector((state) => state.auth);
   // State to hold the form data
   const [formData, setFormData] = useState({
     email: "",
@@ -64,45 +68,16 @@ const Signin = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-
-    if (validate()) {
-      setLoading(true); // Set loading state to true
-      try {
-        const response = await fetch("http://localhost:8080/v1/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-
-        if (!response.ok) {
-          throw new Error(
-            "An error occurred while processing your request. Please try again."
-          );
-        }
-
-        const data = await response.json();
-        console.log("Response:", data);
-      } catch (error) {
-        console.error("Error:", error.message);
-      } finally {
-        setLoading(false); // Set loading state to false
+   if (validate()) {
+        dispatch(login(formData))
+          .unwrap()
+          .then(() => {
+            navigate("/home");
+          })
+          .catch((err) => {
+            console.error("Signup error:", err);
+          });
       }
-
-      // Clear the form
-      setFormData({
-        email: "",
-        password: "",
-      });
-      setErrors({
-        email: "",
-        password: "",
-      });
-    }
-  };
   return (
     <>
       <AuthBase>
@@ -219,6 +194,9 @@ const Signin = () => {
                     </p>
                   </div>
                 )}
+                {error && (
+                  <div className="text-[#EF1212] text-xs text-center">{error}</div>
+                )}
               </div>
 
               <div>
@@ -234,7 +212,7 @@ const Signin = () => {
               </div>
 
               <button className="w-[548px] h-12 border border-[color:var(--primary-purple)] bg-[color:var(--primary-purple)] flex justify-center items-center font-medium [font-style:14px] leading-[19.6px] text-white rounded-lg border-solid">
-                {loading ? <Loading /> : "Sign In"}
+                {isLoading ? <Loading /> : "Sign In"}
               </button>
               <span className="flex justify-center gap-[5px] font-normal text-sm leading-[19.6px] text-center">
                 <p>By signing up you accept our</p>
