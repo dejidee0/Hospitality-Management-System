@@ -1,0 +1,27 @@
+
+######## Docker thins ###########
+docker build -t find_peace_api:1.0.0 .
+
+once the image i built,
+
+youcan run a containeroffit using
+docker run -p 8081:8080 find_peace_api:1.0.0  # host:container port
+or
+docker run --env-file path_to_env_file -p 8081:8080 find_peace_api:1.0.0  # host:container port  #incase u need toload .env in
+
+
+
+to run this dockerimage
+
+I creaated the tarball with this command
+```docker save -o find_peace_api:1.0.0.tar find_peace:1.0.0```
+
+
+
+unpack the tar file with the command below
+```docker load -i find_peace_api:1.0.0.tar```
+
+run a container of the image with the command below
+```docker run --env-file .env -p 8080:8080 find_peace_api:1.0.0```
+
+##########
