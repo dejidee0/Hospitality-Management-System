@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthBase from "./AuthBase";
-import Loading from "./components/ButtonLoader";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthBase from './AuthBase';
+import Loading from './components/ButtonLoader';
 const ForgetPassword = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -15,24 +15,24 @@ const ForgetPassword = () => {
       const response = await fetch(
         `http://localhost:8080/v1/auth/reset-password?email=${email}`,
         {
-          method: "GET",
+          method: 'GET',
         }
       );
 
       if (response.ok) {
-        setMessage("Check your email for the reset link.");
+        setMessage('Check your email for the reset link.');
         // Redirect to reset link page with email passed as state
         // Save email to localStorage
-        localStorage.setItem("resetEmail", email);
-        navigate("/reset-link");
+        localStorage.setItem('resetEmail', email);
+        navigate('/reset-link');
       } else {
         const errorData = await response.json();
-        console.log("Error data:", errorData);
-        setMessage("Error: Unable to process your request.");
+        console.log('Error data:', errorData);
+        setMessage('Error: Unable to process your request.');
       }
     } catch (error) {
-      console.error("Error:", error.message);
-      setMessage("Something went wrong. Please try again later.");
+      console.error('Error:', error.message);
+      setMessage('Something went wrong. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -72,8 +72,8 @@ const ForgetPassword = () => {
                 />
 
                 <label className="placeholder" htmlFor="email">
-                  {" "}
-                  Email{" "}
+                  {' '}
+                  Email{' '}
                 </label>
               </div>
 
@@ -81,7 +81,7 @@ const ForgetPassword = () => {
                 type="submit"
                 className="w-[548px] h-12 border border-primary-purple bg-primary-purple flex justify-center items-center font-medium [font-style:14px] leading-[19.6px] text-white rounded-lg border-solid"
               >
-                {loading ? <Loading /> : " Reset password"}
+                {loading ? <Loading /> : ' Reset password'}
               </button>
               {message && <p>{message}</p>}
             </div>

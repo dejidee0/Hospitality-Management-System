@@ -1,30 +1,30 @@
-import { useState } from "react";
-import logoImg from "../assets/Findpeace-logo.svg";
-import { FaChevronDown } from "react-icons/fa";
-import Flag from "react-world-flags"; // For displaying flags
+import { useState } from 'react';
+import logoImg from '../assets/Findpeace-logo.svg';
+import { FaChevronDown } from 'react-icons/fa';
+import Flag from 'react-world-flags'; // For displaying flags
 
 const Navbar = () => {
-  const [country, setCountry] = useState("NG"); // Default country (Nigeria)
-  const [language, setLanguage] = useState("EN"); // Default language
-  const [currency, setCurrency] = useState("NGN"); // Default currency
-  const [openDropdown, setOpenDropdown] = useState(""); // Tracks which dropdown is open
+  const [country, setCountry] = useState('NG'); // Default country (Nigeria)
+  const [language, setLanguage] = useState('EN'); // Default language
+  const [currency, setCurrency] = useState('NGN'); // Default currency
+  const [openDropdown, setOpenDropdown] = useState(''); // Tracks which dropdown is open
 
   // Dummy data for dropdowns
   const countries = [
-    { name: "Nigeria", code: "NG" },
-    { name: "Benin Republic", code: "BJ" },
+    { name: 'Nigeria', code: 'NG' },
+    { name: 'Benin Republic', code: 'BJ' },
   ];
-  const languages = ["EN", "FR"];
-  const currencies = ["NGN", "CFA"];
+  const languages = ['EN', 'FR'];
+  const currencies = ['NGN', 'CFA'];
 
   // Handle dropdown toggle
   const toggleDropdown = (dropdown) => {
-    setOpenDropdown(openDropdown === dropdown ? "" : dropdown); // Close if open, open if closed
+    setOpenDropdown(openDropdown === dropdown ? '' : dropdown); // Close if open, open if closed
   };
 
   // Close dropdown when clicking outside
   const handleBlur = () => {
-    setTimeout(() => setOpenDropdown(""), 150); // Timeout ensures dropdown stays open during a click
+    setTimeout(() => setOpenDropdown(''), 150); // Timeout ensures dropdown stays open during a click
   };
 
   return (
@@ -40,13 +40,13 @@ const Navbar = () => {
         <div className="relative" onBlur={handleBlur} tabIndex={0}>
           <div
             className="flex items-center gap-2 cursor-pointer"
-            onClick={() => toggleDropdown("country")}
+            onClick={() => toggleDropdown('country')}
           >
             <Flag code={country} className="w-6 h-4" />
             <FaChevronDown size={12} />
           </div>
           {/* Dropdown Menu */}
-          {openDropdown === "country" && (
+          {openDropdown === 'country' && (
             <div className="absolute top-full left-0 bg-white shadow-[0px_4px_6px_rgba(0,0,0,0.1)] rounded-md mt-2 z-[100] animate-[fadeIn_0.2s_ease-in-out]  flex flex-col items-start gap-2.5 text-left pl-4 pt-4  w-44 h-34">
               <p>Country</p>
               {countries.map((c) => (
@@ -55,18 +55,18 @@ const Navbar = () => {
                   className="cursor-pointer gap-2"
                   onClick={() => {
                     setCountry(c.code);
-                    setOpenDropdown("");
+                    setOpenDropdown('');
                   }}
                 >
                   <Flag
                     code={c.code}
-                    style={{ width: "24px", height: "16px" }}
+                    style={{ width: '24px', height: '16px' }}
                   />
                   <span
                     style={{
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      lineHeight: "19.6px",
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      lineHeight: '19.6px',
                     }}
                   >
                     {c.name}
@@ -78,25 +78,25 @@ const Navbar = () => {
         </div>
 
         {/* Language Dropdown */}
-        <div style={{ position: "relative" }} onBlur={handleBlur} tabIndex={0}>
+        <div style={{ position: 'relative' }} onBlur={handleBlur} tabIndex={0}>
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              cursor: "pointer",
-              borderLeft: "1px solid #b2b3b3",
-              borderRight: "1px solid # b2b3b3",
-              paddingLeft: "8px",
-              paddingRight: "10px",
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              cursor: 'pointer',
+              borderLeft: '1px solid #b2b3b3',
+              borderRight: '1px solid # b2b3b3',
+              paddingLeft: '8px',
+              paddingRight: '10px',
             }}
-            onClick={() => toggleDropdown("language")}
+            onClick={() => toggleDropdown('language')}
           >
             <span
               style={{
-                fontSize: "14px",
-                fontWeight: "500",
-                lineHeight: "19.6px",
+                fontSize: '14px',
+                fontWeight: '500',
+                lineHeight: '19.6px',
               }}
             >
               {language}
@@ -104,17 +104,17 @@ const Navbar = () => {
             <FaChevronDown size={12} />
           </div>
           {/* Dropdown Menu */}
-          {openDropdown === "language" && (
+          {openDropdown === 'language' && (
             <div
               style={{
-                position: "absolute",
-                top: "100%",
+                position: 'absolute',
+                top: '100%',
                 left: 0,
-                backgroundColor: "#ffffff",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                borderRadius: "4px",
-                marginTop: "8px",
-                animation: "fadeIn 0.2s ease-in-out",
+                backgroundColor: '#ffffff',
+                boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                borderRadius: '4px',
+                marginTop: '8px',
+                animation: 'fadeIn 0.2s ease-in-out',
                 zIndex: 100,
               }}
             >
@@ -122,12 +122,12 @@ const Navbar = () => {
                 <div
                   key={lang}
                   style={{
-                    padding: "8px 16px",
-                    cursor: "pointer",
+                    padding: '8px 16px',
+                    cursor: 'pointer',
                   }}
                   onClick={() => {
                     setLanguage(lang);
-                    setOpenDropdown("");
+                    setOpenDropdown('');
                   }}
                 >
                   {lang}
@@ -138,21 +138,21 @@ const Navbar = () => {
         </div>
 
         {/* Currency Dropdown */}
-        <div style={{ position: "relative" }} onBlur={handleBlur} tabIndex={0}>
+        <div style={{ position: 'relative' }} onBlur={handleBlur} tabIndex={0}>
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              cursor: "pointer",
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              cursor: 'pointer',
             }}
-            onClick={() => toggleDropdown("currency")}
+            onClick={() => toggleDropdown('currency')}
           >
             <span
               style={{
-                fontSize: "14px",
-                fontWeight: "500",
-                lineHeight: "19.6px",
+                fontSize: '14px',
+                fontWeight: '500',
+                lineHeight: '19.6px',
               }}
             >
               {currency}
@@ -160,17 +160,17 @@ const Navbar = () => {
             <FaChevronDown size={12} />
           </div>
           {/* Dropdown Menu */}
-          {openDropdown === "currency" && (
+          {openDropdown === 'currency' && (
             <div
               style={{
-                position: "absolute",
-                top: "100%",
+                position: 'absolute',
+                top: '100%',
                 left: 0,
-                backgroundColor: "#ffffff",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                borderRadius: "4px",
-                marginTop: "8px",
-                animation: "fadeIn 0.2s ease-in-out",
+                backgroundColor: '#ffffff',
+                boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                borderRadius: '4px',
+                marginTop: '8px',
+                animation: 'fadeIn 0.2s ease-in-out',
                 zIndex: 100,
               }}
             >
@@ -178,12 +178,12 @@ const Navbar = () => {
                 <div
                   key={cur}
                   style={{
-                    padding: "8px 16px",
-                    cursor: "pointer",
+                    padding: '8px 16px',
+                    cursor: 'pointer',
                   }}
                   onClick={() => {
                     setCurrency(cur);
-                    setOpenDropdown("");
+                    setOpenDropdown('');
                   }}
                 >
                   {cur}

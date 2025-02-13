@@ -1,12 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { signup } from "../../redux/slices/users/authSlice"; // Adjust the path as needed
-import AuthBase from "./AuthBase";
-import { LuEye, LuEyeOff } from "react-icons/lu";
-import { CgDanger } from "react-icons/cg";
-import googleIcon from "../../assets/google_icon.svg";
-import facebookIcon from "../../assets/facebook_icon.svg";
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { signup } from '../../redux/slices/users/authSlice'; // Adjust the path as needed
+import AuthBase from './AuthBase';
+import { LuEye, LuEyeOff } from 'react-icons/lu';
+import { CgDanger } from 'react-icons/cg';
+import googleIcon from '../../assets/google_icon.svg';
+import facebookIcon from '../../assets/facebook_icon.svg';
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -16,15 +16,15 @@ const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const handleChange = (e) => {
@@ -37,24 +37,24 @@ const Signup = () => {
   const handleFocus = (field) => {
     setErrors({
       ...errors,
-      [field]: "",
+      [field]: '',
     });
   };
 
   const validate = () => {
     const newErrors = {
-      email: "",
-      password: "",
-      confirmPassword: "",
+      email: '',
+      password: '',
+      confirmPassword: '',
     };
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Email address is invalid";
+      newErrors.email = 'Email address is invalid';
     }
 
     if (formData.password.length < 8) {
-      newErrors.password = "Your password must contain 8 or more characters.";
+      newErrors.password = 'Your password must contain 8 or more characters.';
     }
 
     if (formData.password !== formData.confirmPassword) {
@@ -62,7 +62,7 @@ const Signup = () => {
     }
 
     setErrors(newErrors);
-    return Object.values(newErrors).every((error) => error === "");
+    return Object.values(newErrors).every((error) => error === '');
   };
 
   const handleSubmit = async (e) => {
@@ -72,10 +72,10 @@ const Signup = () => {
       dispatch(signup(formData))
         .unwrap()
         .then(() => {
-          navigate("/signin");
+          navigate('/signin');
         })
         .catch((err) => {
-          console.error("Signup error:", err);
+          console.error('Signup error:', err);
         });
     }
   };
@@ -125,24 +125,24 @@ const Signup = () => {
           </div>
 
           <div className="flex flex-col gap-5">
-              <div className="input-group">
-                <input
-                  className="input  w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
-                  type="text"
-                  id="email"
-                  required
-                  name="email"
-                  autoComplete="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  onFocus={() => handleFocus("email")} // Clear the email error on focus
-                  placeholder=""
-                />
+            <div className="input-group">
+              <input
+                className="input  w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
+                type="text"
+                id="email"
+                required
+                name="email"
+                autoComplete="email"
+                value={formData.email}
+                onChange={handleChange}
+                onFocus={() => handleFocus('email')} // Clear the email error on focus
+                placeholder=""
+              />
 
-                <label className="placeholder" htmlFor="email">
-                  {" "}
-                  Email{" "}
-                </label>
+              <label className="placeholder" htmlFor="email">
+                {' '}
+                Email{' '}
+              </label>
 
               {errors.email && (
                 <div className="flex items-center gap-1 h-5 mt-[5px]">
@@ -153,31 +153,31 @@ const Signup = () => {
             </div>
 
             <div className="input-group">
-                <input
-                  className="input w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
-                  type={showPassword ? "text" : "password"}
-                  placeholder=""
-                  required
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  onFocus={() => handleFocus("password")} // Clear the password error on focus
-                />
+              <input
+                className="input w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
+                type={showPassword ? 'text' : 'password'}
+                placeholder=""
+                required
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                onFocus={() => handleFocus('password')} // Clear the password error on focus
+              />
 
-                <label className="placeholder" htmlFor="password">
-                  {" "}
-                  Password{" "}
-                </label>
+              <label className="placeholder" htmlFor="password">
+                {' '}
+                Password{' '}
+              </label>
 
-                <span
-                  className="password__toggle hidden absolute -translate-y-2/4 cursor-pointer text-[#666] right-5 top-[25px]"
-                  onClick={() => setShowPassword(!showPassword)}
-                  onMouseDown={(e) => e.preventDefault()}
-                >
-                  {showPassword ? <LuEye /> : <LuEyeOff />}
-                </span>
-                
+              <span
+                className="password__toggle hidden absolute -translate-y-2/4 cursor-pointer text-[#666] right-5 top-[25px]"
+                onClick={() => setShowPassword(!showPassword)}
+                onMouseDown={(e) => e.preventDefault()}
+              >
+                {showPassword ? <LuEye /> : <LuEyeOff />}
+              </span>
+
               {errors.password && (
                 <div className="flex items-center gap-1 h-5 mt-[5px]">
                   <CgDanger className="w-[16.7px] h-[16.7px] bg-[#EF1212] text-white rounded-full" />
@@ -185,36 +185,38 @@ const Signup = () => {
                 </div>
               )}
             </div>
-              <div className="input-group">
-                <input
-                  className="input w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
-                  type={showPassword ? "text" : "password"}
-                  placeholder=""
-                  required
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  onFocus={() => handleFocus("confirmPassword")} // Clear the password error on focus
-                />
+            <div className="input-group">
+              <input
+                className="input w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
+                type={showPassword ? 'text' : 'password'}
+                placeholder=""
+                required
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                onFocus={() => handleFocus('confirmPassword')} // Clear the password error on focus
+              />
 
-                <label className="placeholder" htmlFor="confirmPassword">
-                  {" "}
-                  Confirm Password{" "}
-                </label>
+              <label className="placeholder" htmlFor="confirmPassword">
+                {' '}
+                Confirm Password{' '}
+              </label>
 
-                <span
-                  className="password__toggle hidden absolute -translate-y-2/4 cursor-pointer text-[#666] right-5 top-[25px]"
-                  onClick={() => setShowPassword(!showPassword)}
-                  onMouseDown={(e) => e.preventDefault()}
-                >
-                  {showPassword ? <LuEye /> : <LuEyeOff />}
-                </span>
+              <span
+                className="password__toggle hidden absolute -translate-y-2/4 cursor-pointer text-[#666] right-5 top-[25px]"
+                onClick={() => setShowPassword(!showPassword)}
+                onMouseDown={(e) => e.preventDefault()}
+              >
+                {showPassword ? <LuEye /> : <LuEyeOff />}
+              </span>
 
               {errors.confirmPassword && (
                 <div className="flex items-center gap-1 h-5 mt-[5px]">
                   <CgDanger className="w-[16.7px] h-[16.7px] bg-[#EF1212] text-white rounded-full" />
-                  <p className="text-[#EF1212] text-xs">{errors.confirmPassword}</p>
+                  <p className="text-[#EF1212] text-xs">
+                    {errors.confirmPassword}
+                  </p>
                 </div>
               )}
             </div>
@@ -225,12 +227,8 @@ const Signup = () => {
           <div className="text-[#EF1212] text-xs text-center">{error}</div>
         )}
 
-        <button
-          type="submit"
-          className="btn-primary"
-          disabled={isLoading}
-        >
-          {isLoading ? "Signing up..." : "Sign Up"}
+        <button type="submit" className="btn-primary" disabled={isLoading}>
+          {isLoading ? 'Signing up...' : 'Sign Up'}
         </button>
       </form>
     </AuthBase>

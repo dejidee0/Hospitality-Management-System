@@ -10,7 +10,7 @@
 }
 
 body {
-  font-family: "Mona Sans", sans-serif;
+  font-family: 'Mona Sans', sans-serif;
 }
 
 .input:-webkit-autofill,
@@ -59,4 +59,3 @@ body {
 .input:focus ~ .password__toggle {
   display: block !important;
 }
-

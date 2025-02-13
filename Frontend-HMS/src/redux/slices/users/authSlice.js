@@ -6,19 +6,19 @@ const API_URL = `${import.meta.env.VITE_API_URL}/v1/auth`; // Replace with your 
 
 // Async Thunks
 export const signup = createAsyncThunk(
-    'auth/signup',
-    async (userDetails, { rejectWithValue }) => {
-      try {
-        const response = await axios.post(`${API_URL}/signup`, userDetails);
-        const { message } = response.data;
-        return { message };
-      } catch (error) {
-        return rejectWithValue(
-          error.response?.data?.message || 'Signup failed. Please try again.'
-        );
-      }
+  'auth/signup',
+  async (userDetails, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${API_URL}/signup`, userDetails);
+      const { message } = response.data;
+      return { message };
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Signup failed. Please try again.'
+      );
     }
-  );
+  }
+);
 
 // Async Thunks
 export const login = createAsyncThunk(
@@ -29,25 +29,27 @@ export const login = createAsyncThunk(
       const { token } = response.data;
       return { token };
     } catch (error) {
-        return rejectWithValue(
-            error.response?.data?.message || 'Login failed. Password or Email is incorrect'
-        );
+      return rejectWithValue(
+        error.response?.data?.message ||
+          'Login failed. Password or Email is incorrect'
+      );
     }
   }
 );
 
-export const logout = createAsyncThunk('auth/logout', async (_, { dispatch }) => {
-  localStorage.removeItem('auth');
-  dispatch(authSlice.actions.logoutSuccess());
-});
+export const logout = createAsyncThunk(
+  'auth/logout',
+  async (_, { dispatch }) => {
+    localStorage.removeItem('auth');
+    dispatch(authSlice.actions.logoutSuccess());
+  }
+);
 
 export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
   const token = JSON.parse(localStorage.getItem('auth'));
   if (token) {
     return token; // Returns the token and user
-  }
-  else 
-    return null
+  } else return null;
 });
 
 // Slice
@@ -67,7 +69,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    .addCase(signup.pending, (state) => {
+      .addCase(signup.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })

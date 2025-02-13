@@ -5,14 +5,14 @@ const HotelLandingPage = () => {
     name: '',
     email: '',
     phone: '',
-    message: ''
+    message: '',
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -29,10 +29,10 @@ const HotelLandingPage = () => {
         <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
           <div className="text-2xl font-bold">LuxeStay Hotel</div>
           <div className="space-x-6">
-            {['Rooms', 'Amenities', 'Gallery', 'Contact'].map(item => (
-              <a 
-                key={item} 
-                href={item.toLowerCase()} 
+            {['Rooms', 'Amenities', 'Gallery', 'Contact'].map((item) => (
+              <a
+                key={item}
+                href={item.toLowerCase()}
                 className="hover:text-blue-600 transition"
               >
                 {item}
@@ -43,22 +43,24 @@ const HotelLandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <header 
-        id="home" 
+      <header
+        id="home"
         className="relative h-screen flex items-center justify-center text-white"
         style={{
           backgroundImage: `url('/api/placeholder/1920/1080')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          marginTop: '-64px'
+          marginTop: '-64px',
         }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 text-center max-w-2xl px-4">
           <h1 className="text-5xl font-bold mb-4">Escape to Luxury</h1>
-          <p className="text-xl mb-8">Experience unparalleled comfort and elegance at LuxeStay Hotel</p>
-          <a 
-            href="#contact" 
+          <p className="text-xl mb-8">
+            Experience unparalleled comfort and elegance at LuxeStay Hotel
+          </p>
+          <a
+            href="#contact"
             className="bg-blue-600 text-white px-8 py-3 rounded-full text-lg hover:bg-blue-700 transition"
           >
             Book Now
@@ -69,32 +71,36 @@ const HotelLandingPage = () => {
       {/* Key Benefits */}
       <section id="amenities" className="py-16 bg-gray-100">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-4xl text-center mb-12 font-semibold">Why Choose LuxeStay</h2>
+          <h2 className="text-4xl text-center mb-12 font-semibold">
+            Why Choose LuxeStay
+          </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { 
-                title: 'Premium Rooms', 
-                description: 'Luxurious rooms with stunning views and modern amenities',
-                image: '/api/placeholder/400/300?1'
+              {
+                title: 'Premium Rooms',
+                description:
+                  'Luxurious rooms with stunning views and modern amenities',
+                image: '/api/placeholder/400/300?1',
               },
-              { 
-                title: 'Gourmet Dining', 
-                description: 'World-class restaurants offering exquisite culinary experiences',
-                image: `/api/placeholder/400/300?2`
+              {
+                title: 'Gourmet Dining',
+                description:
+                  'World-class restaurants offering exquisite culinary experiences',
+                image: `/api/placeholder/400/300?2`,
               },
-              { 
-                title: 'Wellness Center', 
+              {
+                title: 'Wellness Center',
                 description: 'State-of-the-art spa and fitness facilities',
-                image: `/api/placeholder/400/300?3`
-              }
+                image: `/api/placeholder/400/300?3`,
+              },
             ].map((benefit, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition"
               >
-                <img 
-                  src={benefit.image} 
-                  alt={benefit.title} 
+                <img
+                  src={benefit.image}
+                  alt={benefit.title}
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-6">
@@ -110,13 +116,15 @@ const HotelLandingPage = () => {
       {/* Gallery */}
       <section id="gallery" className="py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-4xl text-center mb-12 font-semibold">Our Spaces</h2>
+          <h2 className="text-4xl text-center mb-12 font-semibold">
+            Our Spaces
+          </h2>
           <div className="grid md:grid-cols-4 gap-4">
             {[4, 5, 6, 7, 8, 9, 10, 11].map((num) => (
-              <img 
-                key={num} 
-                src= '/api/placeholder/300/200?${num}'
-                alt='Hotel Space ${num}'
+              <img
+                key={num}
+                src="/api/placeholder/300/200?${num}"
+                alt="Hotel Space ${num}"
                 className="w-full h-48 object-cover rounded-lg hover:scale-105 transition"
               />
             ))}
@@ -127,35 +135,42 @@ const HotelLandingPage = () => {
       {/* Testimonials */}
       <section className="py-16 bg-gray-100">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-4xl text-center mb-12 font-semibold">Guest Experiences</h2>
+          <h2 className="text-4xl text-center mb-12 font-semibold">
+            Guest Experiences
+          </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { 
-                name: 'Emily Roberts', 
-                quote: 'The most incredible hotel experience I\'ve ever had. Absolutely stunning!',
-                image: '/api/placeholder/200/200?12'
+              {
+                name: 'Emily Roberts',
+                quote:
+                  "The most incredible hotel experience I've ever had. Absolutely stunning!",
+                image: '/api/placeholder/200/200?12',
               },
-              { 
-                name: 'Michael Chen', 
-                quote: 'Perfect location, incredible service, and luxurious rooms.',
-                image: '/api/placeholder/200/200?13'
+              {
+                name: 'Michael Chen',
+                quote:
+                  'Perfect location, incredible service, and luxurious rooms.',
+                image: '/api/placeholder/200/200?13',
               },
-              { 
-                name: 'Sarah Thompson', 
-                quote: 'A true gem. Every detail was perfect and the staff was exceptional.',
-                image: '/api/placeholder/200/200?14'
-              }
+              {
+                name: 'Sarah Thompson',
+                quote:
+                  'A true gem. Every detail was perfect and the staff was exceptional.',
+                image: '/api/placeholder/200/200?14',
+              },
             ].map((review, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="bg-white p-6 rounded-lg shadow-md text-center"
               >
-                <img 
-                  src={review.image} 
+                <img
+                  src={review.image}
                   alt={review.name}
                   className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                 />
-                <blockquote className="italic mb-4">"{review.quote}"</blockquote>
+                <blockquote className="italic mb-4">
+                  "{review.quote}"
+                </blockquote>
                 <p className="font-bold">- {review.name}</p>
               </div>
             ))}
@@ -166,38 +181,48 @@ const HotelLandingPage = () => {
       {/* Packages */}
       <section id="packages" className="py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-4xl text-center mb-12 font-semibold">Our Packages</h2>
+          <h2 className="text-4xl text-center mb-12 font-semibold">
+            Our Packages
+          </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { 
-                title: 'Weekend Escape', 
+              {
+                title: 'Weekend Escape',
                 price: '$299',
-                features: ['2 nights stay', 'Breakfast included', 'Spa access']
+                features: ['2 nights stay', 'Breakfast included', 'Spa access'],
               },
-              { 
-                title: 'Romantic Getaway', 
+              {
+                title: 'Romantic Getaway',
                 price: '$499',
-                features: ['3 nights stay', 'Couples massage', 'Gourmet dinner']
+                features: [
+                  '3 nights stay',
+                  'Couples massage',
+                  'Gourmet dinner',
+                ],
               },
-              { 
-                title: 'Luxury Suite', 
+              {
+                title: 'Luxury Suite',
                 price: '$799',
-                features: ['4 nights stay', 'Ocean view', 'Personal concierge']
-              }
+                features: ['4 nights stay', 'Ocean view', 'Personal concierge'],
+              },
             ].map((pkg, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="bg-white border rounded-lg p-6 text-center hover:shadow-xl transition"
               >
                 <h3 className="text-2xl font-bold mb-4">{pkg.title}</h3>
-                <p className="text-4xl font-bold text-blue-600 mb-6">{pkg.price}</p>
+                <p className="text-4xl font-bold text-blue-600 mb-6">
+                  {pkg.price}
+                </p>
                 <ul className="mb-6 space-y-2">
                   {pkg.features.map((feature, i) => (
-                    <li key={i} className="text-gray-600">{feature}</li>
+                    <li key={i} className="text-gray-600">
+                      {feature}
+                    </li>
                   ))}
                 </ul>
-                <a 
-                  href="#contact" 
+                <a
+                  href="#contact"
                   className="w-full block bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition"
                 >
                   Book Now
@@ -211,42 +236,50 @@ const HotelLandingPage = () => {
       {/* Contact Form */}
       <section id="contact" className="py-16 bg-gray-100">
         <div className="max-w-xl mx-auto px-4">
-          <h2 className="text-4xl text-center mb-12 font-semibold">Contact Us</h2>
-          <form 
-            onSubmit={handleSubmit} 
+          <h2 className="text-4xl text-center mb-12 font-semibold">
+            Contact Us
+          </h2>
+          <form
+            onSubmit={handleSubmit}
             className="bg-white p-8 rounded-lg shadow-md"
           >
             <div className="mb-4">
-              <label htmlFor="name" className="block mb-2">Name</label>
-              <input 
-                type="text" 
-                id="name" 
+              <label htmlFor="name" className="block mb-2">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                required 
+                required
                 className="w-full px-3 py-2 border rounded-md"
                 placeholder="Your Name"
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="email" className="block mb-2">Email</label>
-              <input 
-                type="email" 
-                id="email" 
+              <label htmlFor="email" className="block mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                required 
+                required
                 className="w-full px-3 py-2 border rounded-md"
                 placeholder="your.email@example.com"
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="phone" className="block mb-2">Phone</label>
-              <input 
-                type="tel" 
-                id="phone" 
+              <label htmlFor="phone" className="block mb-2">
+                Phone
+              </label>
+              <input
+                type="tel"
+                id="phone"
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
@@ -255,9 +288,11 @@ const HotelLandingPage = () => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="message" className="block mb-2">Message</label>
-              <textarea 
-                id="message" 
+              <label htmlFor="message" className="block mb-2">
+                Message
+              </label>
+              <textarea
+                id="message"
                 name="message"
                 value={formData.message}
                 onChange={handleInputChange}
@@ -266,8 +301,8 @@ const HotelLandingPage = () => {
                 rows="4"
               ></textarea>
             </div>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition"
             >
               Send Inquiry
@@ -288,20 +323,28 @@ const HotelLandingPage = () => {
           <div>
             <h4 className="text-xl font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-blue-400">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-blue-400">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-blue-400">FAQ</a></li>
+              <li>
+                <a href="#" className="hover:text-blue-400">
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-blue-400">
+                  Terms of Service
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-blue-400">
+                  FAQ
+                </a>
+              </li>
             </ul>
           </div>
           <div>
             <h4 className="text-xl font-bold mb-4">Follow Us</h4>
             <div className="flex space-x-4">
               {['Facebook', 'Instagram', 'Twitter'].map((platform) => (
-                <a 
-                  key={platform} 
-                  href="#" 
-                  className="hover:text-blue-400"
-                >
+                <a key={platform} href="#" className="hover:text-blue-400">
                   {platform}
                 </a>
               ))}

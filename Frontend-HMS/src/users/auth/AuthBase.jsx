@@ -1,7 +1,7 @@
 // most of the pages look alike so this is the base component for all the pages
-import Navbar from "./components/Navbar";
-import sideImg from "../../assets/signup-side-image.svg";
-import PropTypes from "prop-types";
+import Navbar from './components/Navbar';
+import sideImg from '../../assets/signup-side-image.svg';
+import PropTypes from 'prop-types';
 
 const AuthBase = ({ children }) => {
   const currentYear = new Date().getFullYear(); // Dynamically get the current year for copyright section

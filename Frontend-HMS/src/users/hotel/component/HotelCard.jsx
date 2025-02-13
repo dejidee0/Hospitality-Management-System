@@ -1,5 +1,4 @@
-import img from "../../../assets/signup-side-image.svg";
-
+import img from '../../../assets/signup-side-image.svg';
 
 export function HotelCard({ name, location, image, rating, reviews, price }) {
   return (

@@ -1,5 +1,5 @@
-import Navbar from "./components/Navbar";
-import checkMark from "../../assets/confirmPasswordCheck.svg";
+import Navbar from './components/Navbar';
+import checkMark from '../../assets/confirmPasswordCheck.svg';
 
 const ConfirmChange = () => {
   const currentYear = new Date().getFullYear(); // Dynamically get the current year for copyright section

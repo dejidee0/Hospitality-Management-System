@@ -1,29 +1,29 @@
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/slices/users/authSlice"; 
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import AuthBase from "./AuthBase";
-import Loading from "./components/ButtonLoader";
-import { LuEye, LuEyeOff } from "react-icons/lu";
-import { CgDanger } from "react-icons/cg";
-import googleIcon from "../../assets/google_icon.svg";
-import facebookIcon from "../../assets/facebook_icon.svg";
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../redux/slices/users/authSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import AuthBase from './AuthBase';
+import Loading from './components/ButtonLoader';
+import { LuEye, LuEyeOff } from 'react-icons/lu';
+import { CgDanger } from 'react-icons/cg';
+import googleIcon from '../../assets/google_icon.svg';
+import facebookIcon from '../../assets/facebook_icon.svg';
 
 const Signin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-    const { isLoading, error } = useSelector((state) => state.auth);
+  const { isLoading, error } = useSelector((state) => state.auth);
   // State to hold the form data
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   // State to hold error messages for each field
   const [errors, setErrors] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   // Handle input changes and update formData state
@@ -38,33 +38,33 @@ const Signin = () => {
   const handleFocus = (field) => {
     setErrors({
       ...errors,
-      [field]: "", // Clear the error message for the focused field
+      [field]: '', // Clear the error message for the focused field
     });
   };
 
   // Validation logic for the form fields
   const validate = () => {
     const newErrors = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     };
 
     // Validate email format using regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Email address is invalid";
+      newErrors.email = 'Email address is invalid';
     }
 
     // Validate password length (must be at least 8 characters)
     if (formData.password.length < 8) {
-      newErrors.password = "Your password must contain 8 or more characters.";
+      newErrors.password = 'Your password must contain 8 or more characters.';
     }
 
     // Update the errors state with validation results
     setErrors(newErrors);
 
     // Return true if there are no errors
-    return Object.values(newErrors).every((error) => error === "");
+    return Object.values(newErrors).every((error) => error === '');
   };
 
   const handleSubmit = async (e) => {
@@ -72,16 +72,16 @@ const Signin = () => {
 
     // Handle form submission
     if (validate()) {
-          dispatch(login(formData))
-            .unwrap()
-            .then(() => {
-              navigate("/home");
-            })
-            .catch((err) => {
-              console.error("Signup error:", err);
-            });
-        }
-    };
+      dispatch(login(formData))
+        .unwrap()
+        .then(() => {
+          navigate('/home');
+        })
+        .catch((err) => {
+          console.error('Signup error:', err);
+        });
+    }
+  };
 
   return (
     <>
@@ -145,13 +145,13 @@ const Signin = () => {
                   autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
-                  onFocus={() => handleFocus("email")} // Clear the email error on focus
+                  onFocus={() => handleFocus('email')} // Clear the email error on focus
                   placeholder=""
                 />
 
                 <label className="placeholder" htmlFor="email">
-                  {" "}
-                  Email{" "}
+                  {' '}
+                  Email{' '}
                 </label>
 
                 {/* Display email error message */}
@@ -168,19 +168,19 @@ const Signin = () => {
               <div className="input-group">
                 <input
                   className="input w-[548px] h-12 border [borderRadius:8px] pl-2.5 pr-3 py-3.5 border-solid border-[#dcdcdc]"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   placeholder=""
                   required
                   id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  onFocus={() => handleFocus("password")} // Clear the password error on focus
+                  onFocus={() => handleFocus('password')} // Clear the password error on focus
                 />
 
                 <label className="placeholder" htmlFor="password">
-                  {" "}
-                  Password{" "}
+                  {' '}
+                  Password{' '}
                 </label>
 
                 <span
@@ -200,7 +200,9 @@ const Signin = () => {
                   </div>
                 )}
                 {error && (
-                  <div className="text-[#EF1212] pt-2 text-xs text-center">{error}</div>
+                  <div className="text-[#EF1212] pt-2 text-xs text-center">
+                    {error}
+                  </div>
                 )}
               </div>
 
@@ -208,8 +210,8 @@ const Signin = () => {
                 <Link
                   to="/forget-password"
                   style={{
-                    color: "var(--primary-purple)",
-                    float: "right",
+                    color: 'var(--primary-purple)',
+                    float: 'right',
                   }}
                 >
                   Forget Password?
@@ -217,14 +219,14 @@ const Signin = () => {
               </div>
 
               <button className="w-[548px] h-12 border border-[color:var(--primary-purple)] bg-[color:var(--primary-purple)] flex justify-center items-center font-medium [font-style:14px] leading-[19.6px] text-white rounded-lg border-solid">
-                {isLoading ? <Loading /> : "Sign In"}
+                {isLoading ? <Loading /> : 'Sign In'}
               </button>
               <span className="flex justify-center gap-[5px] font-normal text-sm leading-[19.6px] text-center">
                 <p>By signing up you accept our</p>
                 <Link className="text-[color:var(--primary-purple)]">
-                  Terms{" "}
-                </Link>{" "}
-                and{" "}
+                  Terms{' '}
+                </Link>{' '}
+                and{' '}
                 <Link className=" text-[color:var(--primary-purple)]">
                   Privacy Policy
                 </Link>

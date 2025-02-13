@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import React, { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const SearchBar = () => {
   const [dropdown, setDropdown] = useState({
     whereTo: false,
-    guests: false
+    guests: false,
   });
   const [rooms, setRooms] = useState([
-    { rooms: 1, adults: 1, children: 0 } // Initial room
+    { rooms: 1, adults: 1, children: 0 }, // Initial room
   ]);
   const [values, setValues] = useState({
-    whereTo: "",
+    whereTo: '',
     checkIn: null,
     checkOut: null,
-    guests: { adults: 1, children: 0 }
+    guests: { adults: 1, children: 0 },
   });
 
   const [suggestions, setSuggestions] = useState([]);
@@ -28,14 +28,14 @@ const SearchBar = () => {
       },
       { adults: 0, children: 0 }
     );
-  
+
     // Update `guests` with the total guests and the rooms count
-    setValues(prev => ({ 
-      ...prev, 
-      guests: { 
-        ...totalGuests, 
-        rooms: rooms.length 
-      } 
+    setValues((prev) => ({
+      ...prev,
+      guests: {
+        ...totalGuests,
+        rooms: rooms.length,
+      },
     }));
   }, [rooms]);
 
@@ -44,15 +44,15 @@ const SearchBar = () => {
   };
 
   const updateRoomCount = (index, type, operation) => {
-    setRooms(prev =>
+    setRooms((prev) =>
       prev.map((room, i) =>
         i === index
           ? {
               ...room,
               [type]:
-                operation === "increment"
+                operation === 'increment'
                   ? room[type] + 1
-                  : Math.max(room[type] - 1, 0)
+                  : Math.max(room[type] - 1, 0),
             }
           : room
       )
@@ -60,43 +60,43 @@ const SearchBar = () => {
   };
 
   const addRoom = () => {
-    setRooms(prev => [
+    setRooms((prev) => [
       ...prev,
-      { rooms: prev.length + 1, adults: 1, children: 0 }
+      { rooms: prev.length + 1, adults: 1, children: 0 },
     ]);
   };
 
-  const removeRoom = index => {
-    setRooms(prev =>
+  const removeRoom = (index) => {
+    setRooms((prev) =>
       prev
         .filter((_, i) => i !== index)
         .map((room, i) => ({ ...room, rooms: i + 1 }))
     );
   };
 
-  const handleInputChange = async e => {
+  const handleInputChange = async (e) => {
     const input = e.target.value;
-    setValues(prev => ({ ...prev, whereTo: input }));
+    setValues((prev) => ({ ...prev, whereTo: input }));
 
     if (input.trim().length > 0) {
       try {
         const response = await fetch(`/api/locations?query=${input}`);
         const data = await response.json();
         setSuggestions(data);
-        setDropdown(prev => ({ ...prev, whereTo: true }));
+        setDropdown((prev) => ({ ...prev, whereTo: true }));
       } catch (error) {
-        console.error("Error fetching suggestions:", error);
+        console.error('Error fetching suggestions:', error);
         setSuggestions([]);
       }
     } else {
-      setDropdown(prev => ({ ...prev, whereTo: false }));
+      setDropdown((prev) => ({ ...prev, whereTo: false }));
       setSuggestions([]);
     }
   };
 
   const selectOption = (field, option) => {
-    setValues(prev => ({ ...prev, [field]: option }));
-    setDropdown(prev => ({ ...prev, whereTo: false }));
+    setValues((prev) => ({ ...prev, [field]: option }));
+    setDropdown((prev) => ({ ...prev, whereTo: false }));
     setSuggestions([]);
   };
 
@@ -122,9 +122,12 @@ const SearchBar = () => {
           placeholder="Enter location"
           value={values.whereTo}
           onChange={handleInputChange}
-          onFocus={() => setDropdown(prev => ({ ...prev, whereTo: true }))}
+          onFocus={() => setDropdown((prev) => ({ ...prev, whereTo: true }))}
           onBlur={() =>
-            setTimeout(() => setDropdown(prev => ({ ...prev, whereTo: false })), 200)
+            setTimeout(
+              () => setDropdown((prev) => ({ ...prev, whereTo: false })),
+              200
+            )
           }
         />
         {dropdown.whereTo && suggestions.length > 0 && (
@@ -133,7 +136,7 @@ const SearchBar = () => {
               <div
                 key={index}
                 className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                onClick={() => selectOption("whereTo", option)}
+                onClick={() => selectOption('whereTo', option)}
               >
                 {option}
               </div>
@@ -147,7 +150,7 @@ const SearchBar = () => {
         <label className="block text-xs text-gray-500 mb-1">Check In</label>
         <DatePicker
           selected={values.checkIn}
-          onChange={date => setValues(prev => ({ ...prev, checkIn: date }))}
+          onChange={(date) => setValues((prev) => ({ ...prev, checkIn: date }))}
           dateFormat="EEE, MMM d"
           className="border rounded-md px-4 py-2 w-full text-gray-700"
           placeholderText="Select date"
@@ -159,7 +162,9 @@ const SearchBar = () => {
         <label className="block text-xs text-gray-500 mb-1">Check Out</label>
         <DatePicker
           selected={values.checkOut}
-          onChange={date => setValues(prev => ({ ...prev, checkOut: date }))}
+          onChange={(date) =>
+            setValues((prev) => ({ ...prev, checkOut: date }))
+          }
           dateFormat="EEE, MMM d"
           className="border rounded-md px-4 py-2 w-full text-gray-700"
           placeholderText="Select date"
@@ -171,11 +176,11 @@ const SearchBar = () => {
         <div
           className="border rounded-md px-4 py-2 cursor-pointer text-gray-700"
           onClick={() =>
-            setDropdown(prev => ({ ...prev, guests: !prev.guests }))
+            setDropdown((prev) => ({ ...prev, guests: !prev.guests }))
           }
         >
           <span className="block text-xs text-gray-500">Guests & Rooms</span>
-          {`${totalGuests.adults} Adults, ${totalGuests.children} Children, ${totalRooms} Room${totalRooms > 1 ? "s" : ""}`}
+          {`${totalGuests.adults} Adults, ${totalGuests.children} Children, ${totalRooms} Room${totalRooms > 1 ? 's' : ''}`}
         </div>
         {dropdown.guests && (
           <div className="absolute bg-white border rounded-md mt-1 shadow-lg w-full z-10 p-4">
@@ -197,14 +202,18 @@ const SearchBar = () => {
                   <div className="flex items-center gap-2">
                     <button
                       className="border rounded-full w-6 h-6 flex items-center justify-center"
-                      onClick={() => updateRoomCount(index, "adults", "decrement")}
+                      onClick={() =>
+                        updateRoomCount(index, 'adults', 'decrement')
+                      }
                     >
                       -
                     </button>
                     <span>{room.adults}</span>
                     <button
                       className="border rounded-full w-6 h-6 flex items-center justify-center"
-                      onClick={() => updateRoomCount(index, "adults", "increment")}
+                      onClick={() =>
+                        updateRoomCount(index, 'adults', 'increment')
+                      }
                     >
                       +
                     </button>
@@ -215,14 +224,18 @@ const SearchBar = () => {
                   <div className="flex items-center gap-2">
                     <button
                       className="border rounded-full w-6 h-6 flex items-center justify-center"
-                      onClick={() => updateRoomCount(index, "children", "decrement")}
+                      onClick={() =>
+                        updateRoomCount(index, 'children', 'decrement')
+                      }
                     >
                       -
                     </button>
                     <span>{room.children}</span>
                     <button
                       className="border rounded-full w-6 h-6 flex items-center justify-center"
-                      onClick={() => updateRoomCount(index, "children", "increment")}
+                      onClick={() =>
+                        updateRoomCount(index, 'children', 'increment')
+                      }
                     >
                       +
                     </button>
@@ -237,7 +250,9 @@ const SearchBar = () => {
               Add Room
             </button>
             <button
-              onClick={() => setDropdown(prev => ({ ...prev, guests: false }))}
+              onClick={() =>
+                setDropdown((prev) => ({ ...prev, guests: false }))
+              }
               className="bg-purple-600 text-white px-6 py-2 rounded-md w-full"
             >
               Apply
