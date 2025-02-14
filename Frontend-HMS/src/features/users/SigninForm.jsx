@@ -11,6 +11,7 @@ import googleIcon from '@/assets/google_icon.svg';
 import facebookIcon from '@/assets/facebook_icon.svg';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
 
+
 // Define validation schema using Yup
 const schema = yup.object().shape({
   email: yup
@@ -38,12 +39,13 @@ const SigninForm = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    console.log(data)
     try {
       const response = await loginMutation(data).unwrap();
       dispatch(setCredentials(response)); // Update auth state
       navigate('/signin'); // Redirect to sign-in page after successful signup
     } catch (err) {
-      console.error('Signup error:', err);
+      console.error('Signin error:', err);
     }
   };
 
@@ -93,7 +95,7 @@ const SigninForm = () => {
           {/* Default signup */}
           <div className="flex items-center justify-center gap-3 relative text-center text-sm font-normal text-black">
             <span className=" w-[200.5px] grow h-px bg-[#E6E7E6] mr-2.5"></span>
-            Or Sign up with
+            Or Sign in with
             <span className=" w-[200.5px] grow h-px bg-[#E6E7E6] mr-2.5"></span>
           </div>
 

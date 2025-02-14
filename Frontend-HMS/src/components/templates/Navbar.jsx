@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import sideImg from '@/assets/Findpeace-logo.svg';
+import logoImg from '@/assets/Findpeace-logo.svg';
 import { FaChevronDown } from 'react-icons/fa';
 import Flag from 'react-world-flags'; // For displaying flags
 

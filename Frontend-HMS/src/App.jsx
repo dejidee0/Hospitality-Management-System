@@ -1,13 +1,14 @@
-import { Routes } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import UsersRoutes from './routes/users/userRoutes';
+import UsersRoutes from '@/routes/users/userRoutes';
+
 
 function App() {
   return (
     <>
       <Routes>
-        <UsersRoutes />
-      </Routes>
+        <Route path="/*" element={<UsersRoutes />} />
+      </Routes>    
     </>
   );
 }
