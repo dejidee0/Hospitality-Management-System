@@ -8,8 +8,8 @@ import { LuEye, LuEyeOff } from 'react-icons/lu';
 import { CgDanger } from 'react-icons/cg';
 import googleIcon from '../../assets/google_icon.svg';
 import facebookIcon from '../../assets/facebook_icon.svg';
-import { HotelCard } from './component/HotelCard';
-import SearchBar from './component/Searchbar';
+import { HotelCard } from '../../users/hotel/component/HotelCard';
+import SearchBar from '../../users/hotel/component/Searchbar';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';

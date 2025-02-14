@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../redux/slices/users/authSlice';
+import { login } from '../../../redux/slices/users/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AuthBase from './AuthBase';

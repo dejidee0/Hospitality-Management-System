@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { signup } from '../../redux/slices/users/authSlice'; // Adjust the path as needed
+import { signup } from '../../../redux/slices/users/authSlice'; // Adjust the path as needed
 import AuthBase from './AuthBase';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
 import { CgDanger } from 'react-icons/cg';
