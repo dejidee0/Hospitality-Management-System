@@ -1,2 +1,4 @@
 bin/.env
 # docker/*.tar
+config.bat
+node_modules
