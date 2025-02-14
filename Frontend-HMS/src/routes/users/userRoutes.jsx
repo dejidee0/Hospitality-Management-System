@@ -11,10 +11,10 @@ const UsersRoutes = () => {
     <Routes>
       <Route path="signup/" element={<Signup />} />
       <Route path="signin/" element={<Signin />} />
-      <Route path="confirm-change/" element={<ConfirmChange />} />
+      {/* <Route path="confirm-change/" element={<ConfirmChange />} />
       <Route path="reset-password/" element={<ResetPassword />} />
       <Route path="home/" element={<Home />} />
-      <Route path="search/" element={<Search />} />
+      <Route path="search/" element={<Search />} /> */}
     </Routes>
   );
 };

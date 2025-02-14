@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useLoginMutation } from '../../api/authApi';
+import { useLoginMutation } from '@/api/authApi';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../../redux/slices/users/authSlice';
+import { setCredentials } from '@/redux/slices/users/authSlice';
 import { CgDanger } from 'react-icons/cg';
-import googleIcon from '../../assets/google_icon.svg';
-import facebookIcon from '../../assets/facebook_icon.svg';
+import googleIcon from '@/assets/google_icon.svg';
+import facebookIcon from '@/assets/facebook_icon.svg';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
 
 // Define validation schema using Yup

@@ -1,7 +1,7 @@
-import AuthBase from './AuthBase';
-import SigninForm from '../../../features/users/SignupForm';
+import AuthBase from '@components/organisms/AuthBase';
+import SigninForm from '@features/users/SignupForm';
 
-import Navbar from '../../../components/templates/Navbar';
+import Navbar from '@components/templates/Navbar';
 
 const Signin = () => {
   return (
