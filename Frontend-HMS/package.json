@@ -12,6 +12,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@hookform/resolvers": "^4.0.0",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "date-fns": "^4.1.0",
@@ -25,7 +26,8 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.0.1",
     "react-world-flags": "^1.6.0",
-    "swiper": "^11.2.0"
+    "swiper": "^11.2.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

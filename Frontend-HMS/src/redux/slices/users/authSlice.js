@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { saveToken, removeToken, getToken } from '../../../utils/authUtils';
 
-
 // Initial state
 const initialState = {
   user: null,

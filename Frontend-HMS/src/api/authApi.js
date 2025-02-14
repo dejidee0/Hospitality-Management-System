@@ -4,7 +4,6 @@ import { getToken } from '../utils/authUtils';
 // Get the base URL from environment variables
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/v1/auth`;
 
-
 // Create the API service
 export const authApi = createApi({
   reducerPath: 'authApi', // Unique key for the reducer

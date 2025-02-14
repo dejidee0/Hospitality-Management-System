@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
-import { Signup } from '../../pages/user/auth';
-import { Signin } from '../../pages/user/Signin';
-import { ConfirmChange } from '../../pages/user/ConfirmChange';
-import { ResetPassword } from '../../pages/user/ResetPassword';
-import { Home } from '../../pages/user/Home'
+import { Signup } from '../../pages/user/auth/Signup';
+import { Signin } from '../../pages/user/auth/Signin';
+import { ConfirmChange } from '../../pages/user/auth/ComfirmChange';
+import { ResetPassword } from '../../pages/user/auth/ResetPassword';
+import { Home } from '../../pages/user/Home';
 import { Search } from '../../pages/user/Search';
 
 const UsersRoutes = () => {
