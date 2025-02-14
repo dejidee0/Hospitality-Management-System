@@ -1,111 +1,39 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit';
+import { saveToken, removeToken, getToken } from '../../../utils/authUtils';
 
-// Set API base URL
-const API_URL = `${import.meta.env.VITE_API_URL}/v1/auth`; // Replace with your API endpoint
 
-// Async Thunks
-export const signup = createAsyncThunk(
-  'auth/signup',
-  async (userDetails, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${API_URL}/signup`, userDetails);
-      const { message } = response.data;
-      return { message };
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || 'Signup failed. Please try again.'
-      );
-    }
-  }
-);
+// Initial state
+const initialState = {
+  user: null,
+  token: getToken(), // Retrieve token from localStorage
+  isAuthenticated: !!getToken(), // Check if token exists
+};
 
-// Async Thunks
-export const login = createAsyncThunk(
-  'auth/login',
-  async (credentials, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${API_URL}/login`, credentials);
-      const { token } = response.data;
-      return { token };
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message ||
-          'Login failed. Password or Email is incorrect'
-      );
-    }
-  }
-);
-
-export const logout = createAsyncThunk(
-  'auth/logout',
-  async (_, { dispatch }) => {
-    localStorage.removeItem('auth');
-    dispatch(authSlice.actions.logoutSuccess());
-  }
-);
-
-export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
-  const token = JSON.parse(localStorage.getItem('auth'));
-  if (token) {
-    return token; // Returns the token and user
-  } else return null;
-});
-
-// Slice
+// Create the slice
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    token: null,
-    isAuthenticated: false,
-    isLoading: false,
-    error: null,
-  },
+  initialState,
   reducers: {
-    logoutSuccess(state) {
+    // Set user and token after successful login/register
+    setCredentials: (state, action) => {
+      const { user, token } = action.payload;
+      state.user = user;
+      state.token = token;
+      state.isAuthenticated = true;
+      saveToken(token); // Save token to localStorage
+    },
+    // Clear user and token on logout
+    logout: (state) => {
+      state.user = null;
       state.token = null;
       state.isAuthenticated = false;
+      removeToken(); // Remove token from localStorage
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(signup.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(signup.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isAuthenticated = true;
-        state.token = action.payload.token;
-        localStorage.setItem('auth', JSON.stringify(action.payload));
-      })
-      .addCase(signup.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(login.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(login.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isAuthenticated = true;
-        state.token = action.payload.token;
-        localStorage.setItem('auth', JSON.stringify(action.payload.token));
-      })
-      .addCase(login.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(checkAuth.fulfilled, (state, action) => {
-        state.isAuthenticated = true;
-        state.token = action.payload;
-      })
-      .addCase(checkAuth.rejected, (state) => {
-        state.isAuthenticated = false;
-      });
   },
 });
 
-export const { logoutSuccess } = authSlice.actions;
+// Export actions
+export const { setCredentials, logout } = authSlice.actions;
+
+// Export reducer
 export default authSlice.reducer;
