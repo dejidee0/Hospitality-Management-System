@@ -11,41 +11,62 @@ or use the make command
 ``` make server ```
 
 ## Endpoints Documentation
+NOTE: prefix every endpoint with `/api/v1
 
 <!-- this endpoint checks if the server is running fine -->
-1. GET /v1/health
+1. GET /health
 
-endpoint creates a user, expects [email: string, password: string]
-2. POST /v1/auth/signup
+
+2. POST /auth/signup
+
+endpoint creates a user
+
+
     Payload:
+
         - email     [required]
         - password  [required]
 
-3. POST /v1/auth/login
+3. POST /auth/login
+
     Payload:
+
         - email     [required]
         - password  [required]
     Return:
         {message, token}
 
-<!-- IGNORE THIS -->
-4. GET /v1/auth/profile
-<!-- IT'S JUST FOR TESTING PURPOSES -->
+******** IGNORE THIS************************************
 
-<!-- this endpoint sends a reset token to the supplied email, token expires in 1hr -->
-5. GET /v1/auth/reset-password
-    Query Parameter
+4. GET /auth/profile**********************************
+
+*********** IT'S JUST FOR TESTING PURPOSES ************
+
+
+5. GET /auth/reset-password
+
+    this endpoint sends a reset token to the supplied email, token expires in 1hr
+
+    Query Parameter:
+
         - email
 
-<!-- endpoint changes password to the newly supplied password, provided the token is valid -->
-6. POST /v1/auth/change-password
+
+6. POST /auth/change-password
+
+    endpoint changes password to the newly supplied password, provided the token is valid
+
     Payload:
+
         - token
         - password
 
-<!-- this gets the data required for the home page -->
-7. GET /v1/hotels/index
+7. GET /hotels/index
+
+    this gets the data required for the home page
+
     returns:
+
         data: {
 			popular_hotels: list of popular hotels,
 			trending_destinations: list of trending destinations,
@@ -53,14 +74,21 @@ endpoint creates a user, expects [email: string, password: string]
 			blogs: list of recent travel articles
 		}
 
-8. GET /v1/hotels/search?state=
+8. GET /hotels/search
+
+    Query Parameters:
+
+        - state
     returns hotels from the supplied state with the neccessary details for the search page
 
-9. GET /v1/hotels/<hotel_id>
+9. GET /hotels/<hotel_id>
+
     returns details about the hotel with all the available rooms and their details
 
-10. POST /v1/hotels/booking
+10. POST /hotels/booking
+
     Payload:
+
         room-id:            string   
 	    guest-names:        string      --- comma separated names in case of multiple guests
         phone-numbers:      string      --- comma separated phones in case of multiple guests
@@ -84,7 +112,12 @@ endpoint creates a user, expects [email: string, password: string]
             tx-reference: [string]
         }
 
-11. GET /v1/hotels/booking/verify?reference={REFERENCE}&booking_id={BOOKING_ID}
+11. GET /hotels/booking/verify
+
+        Query Parameters:
+
+            -   reference
+            -   booking_id
         Response body:
             {
                 "status": "success"
@@ -107,7 +140,8 @@ endpoint creates a user, expects [email: string, password: string]
                 }
             }
 
-12. GET /v1/events/index
+12. GET /events/index
+
         returns:
         data: {
             popular_events:  list of popular events,
@@ -116,25 +150,35 @@ endpoint creates a user, expects [email: string, password: string]
 			business_events: list of events in the business category,
 		}
 
-13. GET /v1/events/search?state=lagos
+13. GET /events/search
+
+    Query Parameter:
+
+        -   state
     returns events in the supplied state with the neccessary details for the search page
 
-14. GET /v1/events/<event_id>
+14. GET /events/<event_id>
+
     returns details about the event with the provided id
 
 
-15. POST /v1/events/booking
+15. POST /events/booking
+
     Payload:
-        event-id:           string   
-	    first-name:         string      
-        last-name:          string      
-        email:              string      
-        payment-method:     string
-        quantity:           int         --- number of tickets
-        promo-code:         string      --- empty string '' [optional]
-        total-amount        int   
-    
+
+        {
+            event-id:           string   
+            first-name:         string      
+            last-name:          string      
+            email:              string      
+            payment-method:     string
+            quantity:           int         --- number of tickets
+            promo-code:         string      --- empty string '' [optional]
+            total-amount        int   
+        }  
+
     Response:
+
         {
             authorization-url: [string],
             event-booking-id: [string],
@@ -146,7 +190,11 @@ endpoint creates a user, expects [email: string, password: string]
         }
 
 
-16. GET /v1/events/booking/verify?reference={REFERENCE}
+16. GET /events/booking/verify
+
+        Query Parameters
+        -   reference
+
         Response body:
         "status":  "success",
 		"message": "payment is successful!",
@@ -166,5 +214,7 @@ endpoint creates a user, expects [email: string, password: string]
                         "image": [string]
                     }
             },
-            
-<!-- for verify booking for events, i may restructure verify booking hotel to accomodate all verify -->
+
+
+
+for verify booking for events, i may restructure verify booking hotel to accomodate all verify
