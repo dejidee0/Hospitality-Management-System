@@ -1,9 +1,0 @@
-DROP TABLE users;
-DROP TABLE hotels;
-DROP TABLE house_rules;
-DROP TABLE rooms;
-DROP TABLE hotel_bookings;
-DROP TABLE reviews;
-DROP TABLE blogs;
-DROP TABLE paystack_bookings;
-DROP TABLE events;
